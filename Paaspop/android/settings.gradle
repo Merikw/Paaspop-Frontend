@@ -1,0 +1,3 @@
+rootProject.name = 'Paaspop'
+
+include ':app'
