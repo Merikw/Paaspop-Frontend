@@ -1,5 +1,3 @@
-import {} from "../actions/actionTypes";
-
 const initialState = {
     user: {}
 };

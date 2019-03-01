@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Image } from "react-native";
 
-import Logo from "../../../assets/images/paaspoplogo.png"
-import { Colors } from "../../../assets/GeneralStyle";
+import Logo from "../../assets/images/paaspoplogo.png"
+import { Colors } from "../../assets/GeneralStyle";
 
 const Header = {
     headerTitle: (
