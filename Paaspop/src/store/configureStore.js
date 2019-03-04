@@ -1,13 +1,14 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
-import paaspopReducer from './reducers/paaspop';
+import usersReducer from './reducers/users';
 
 const rootReducer = combineReducers({
-    paaspop: paaspopReducer
+    users: usersReducer
 });
 
 const configureStore = () => {
-    return createStore(rootReducer);
+    return createStore(rootReducer, applyMiddleware(thunk));
 };
 
 export default configureStore;

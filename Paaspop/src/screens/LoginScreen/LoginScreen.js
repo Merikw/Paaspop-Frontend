@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { connect } from 'react-redux';
 
 import Header from "../../components/header/Header";
 import SwitchSelector from "../../components/switchSelector/SwitchSelector";
-import NumberPicker from "../../components/numberPicker/numberPicker";
+import NumberPicker from "../../components/numberPicker/NumberPicker";
+import Button from "../../components/button/Button";
 
 import { Gender } from "../../utilities/constants/constants";
+
+import { addUser } from "../../store/actions/users";
 
 const options = [
   { label: Gender.Male.Label, value: Gender.Male.Value },
@@ -18,13 +21,13 @@ class LoginScreen extends Component {
     state = {
         user: {
           gender: 0,
-          age: 0,
+          age: 18,
         }
     }
 
     static navigationOptions = Header;
 
-    onChoseGenderHandler = value =>{
+    onChoseGenderHandler = value => {
       this.setState(prevState => {
         return{
           user: {
@@ -35,6 +38,21 @@ class LoginScreen extends Component {
       })
     }
 
+    onChangeAgeHandler = value => {
+      this.setState(prevState => {
+        return{
+          user: {
+            ...prevState.user,
+            age: value
+          }
+        }
+      })
+    }
+
+    createUser = () => {
+      this.props.onCreateUser(this.state.user)
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -42,8 +60,9 @@ class LoginScreen extends Component {
                 <SwitchSelector options={options} selectedState={this.state.user.gender} onChoseHandler={this.onChoseGenderHandler.bind(this)}/>
               </View>
               <View style={styles.numberPickerContainer}>
-                <NumberPicker label={"Leeftijd:"} minValue={0} maxValue={120} iconColor={"black"} initialValue={18} />
+                <NumberPicker label={"Leeftijd:"} minValue={0} maxValue={120} iconColor={"black"} initialValue={18} onChangeHandler={this.onChangeAgeHandler.bind(this)} />
               </View>
+              <Button text={"Ga verder"} onPressHandler={this.createUser}/>
             </View>
         );
     }
@@ -59,19 +78,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 30,
     width: "80%",
+    marginBottom: "5%"
   },
   numberPickerContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
     marginTop: "5%",
+    marginBottom: "5%",
     width: "80%"
   }
 })
 
-const mapStateToProps = state => {
-    return {
-        gender: state.paaspop.gender 
-    }
-}
+const mapDispatchToProps = dispatch => {
+  return {
+      onCreateUser: (user) => dispatch(addUser(user))
+  };
+};
 
-export default connect(mapStateToProps)(LoginScreen)
+export default connect(null, mapDispatchToProps)(LoginScreen)
