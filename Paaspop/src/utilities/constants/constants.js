@@ -12,3 +12,9 @@ export const Gender = {
         Value: 2
     }
 }
+
+export const LocalStorageKeys = {
+    User: {
+        Key: "User"
+    }
+}

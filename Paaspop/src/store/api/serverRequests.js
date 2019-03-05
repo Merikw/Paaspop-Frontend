@@ -12,17 +12,13 @@ const rootUrl = () => {
 const ROOT_URL = rootUrl();
 
 export const Post = (url, data) => {
-    alert(JSON.stringify(data))
-    var object = {
-        "Gender": 2,
-        "Age":32
-    }
-    axios.post(`${ROOT_URL}/${url}`, object, { headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        "Access-Control-Allow-Origin": "*",
-        Accept: "application/json"
-    }})
-    .then(result => {
-        alert("hoi");
-    })
+    return axios({
+        method: 'post',
+        url: `${ROOT_URL}/${url}`,
+        data: data,
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+        },
+        timeout: 2000
+      });
 }

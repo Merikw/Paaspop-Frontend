@@ -1,17 +1,22 @@
-import { ADD_USER, ADD_USER_SUCCESS, ADD_USER_FAIL } from "../actions/actionTypes"
+import { ADD_USER_IS_LOADING, ADD_USER_SUCCESS, ADD_USER_FAIL } from "../actions/actionTypes"
 
 const initialState = {
-    user: {}
+    addUserAction: {
+        newUser: {},
+        error: false,
+        loading: false,
+        succes: false
+    }
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type){
-        case ADD_USER:
-            return {...state, newUser: { loading: true}}
+        case ADD_USER_IS_LOADING:
+            return {...state, addUserAction: {newUser: null, loading: action.payload, error: false, succes: false} }
         case ADD_USER_SUCCESS:
-            return {...state, newUser: {user: action.payload, error: null, loading: false}}
+            return {...state, addUserAction: {newUser: action.payload, loading: false, error: false, succes: true} }
         case ADD_USER_FAIL:
-            return {...state, newUser: {user: null, error: action.payload, loading: false}}
+            return {...state, addUserAction: {newUser: null, loading: false, error: action.payload, succes: false} }
         default:
             return state;
     }

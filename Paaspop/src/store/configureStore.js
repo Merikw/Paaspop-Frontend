@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import usersReducer from './reducers/users';
 
 const rootReducer = combineReducers({
-    users: usersReducer
+    usersStore: usersReducer
 });
 
 const configureStore = () => {
