@@ -1,24 +1,33 @@
-import React, { Component } from "react";
-import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 
-import { Colors } from "../../assets/GeneralStyle";
+import { Colors } from '../../assets/GeneralStyle';
 
-const Button = (props) => {
-    return (
-        <TouchableOpacity onPress={props.onPressHandler}>
-            <Text style={styles.buttonText}>
-                {props.text}
-            </Text>
-        </TouchableOpacity>
-    )
-}
+const Button = props => {
+  const { onPressHandler, text } = props;
+  return (
+    <TouchableOpacity onPress={onPressHandler}>
+      <Text style={styles.buttonText}>{text}</Text>
+    </TouchableOpacity>
+  );
+};
+
+Button.propTypes = {
+  onPressHandler: PropTypes.func.isRequired,
+  text: PropTypes.string,
+};
+
+Button.defaultProps = {
+  text: 'Klik',
+};
 
 const styles = StyleSheet.create({
-    buttonText: {
-        color: Colors.primary,
-        fontFamily: "LiberationSans-Regular",
-        fontSize: 22
-    }
-})
+  buttonText: {
+    color: Colors.primary,
+    fontFamily: 'LiberationSans-Regular',
+    fontSize: 22,
+  },
+});
 
 export default Button;

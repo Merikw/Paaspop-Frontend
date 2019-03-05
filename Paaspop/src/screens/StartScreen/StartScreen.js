@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet } from "react-native";
+/* eslint react/prefer-stateless-function: 0 */
 
+import React, { Component } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 class StartScreen extends Component {
   render() {
@@ -13,11 +14,11 @@ class StartScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  }
-})
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
-export default StartScreen
+export default StartScreen;

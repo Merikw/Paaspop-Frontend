@@ -4,11 +4,11 @@ import thunk from 'redux-thunk';
 import usersReducer from './reducers/users';
 
 const rootReducer = combineReducers({
-    usersStore: usersReducer
+  usersStore: usersReducer,
 });
 
 const configureStore = () => {
-    return createStore(rootReducer, applyMiddleware(thunk));
+  return createStore(rootReducer, applyMiddleware(thunk));
 };
 
 export default configureStore;

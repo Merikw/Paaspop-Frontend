@@ -1,25 +1,27 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Modal,
-  ActivityIndicator
-} from 'react-native';
+import { StyleSheet, View, Modal, ActivityIndicator } from 'react-native';
+import PropTypes from 'prop-types';
 
-import { Colors } from "../../assets/GeneralStyle";
+import { Colors } from '../../assets/GeneralStyle';
 
 const Loader = props => {
+  const { isLoading } = props;
   return (
-    <Modal
-      transparent={true}
-      animationType={'none'}
-      visible={props.isLoading}>
+    <Modal transparent animationType="none" visible={isLoading}>
       <View style={styles.modalBackground}>
-        <ActivityIndicator animating={props.isLoading} size="large" color={Colors.primary} />
+        <ActivityIndicator animating={isLoading} size="large" color={Colors.primary} />
       </View>
     </Modal>
-  )
-}
+  );
+};
+
+Loader.propTypes = {
+  isLoading: PropTypes.bool,
+};
+
+Loader.defaultProps = {
+  isLoading: false,
+};
 
 const styles = StyleSheet.create({
   modalBackground: {
@@ -27,8 +29,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    backgroundColor: '#00000040'
-  }
+    backgroundColor: Colors.transparentBackground,
+  },
 });
 
 export default Loader;

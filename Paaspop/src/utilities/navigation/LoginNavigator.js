@@ -1,9 +1,9 @@
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-import LoginScreen from "../../screens/LoginScreen/LoginScreen";
+import LoginScreen from '../../screens/LoginScreen/LoginScreen';
 
 const LoginNavigator = createStackNavigator({
-    Login: LoginScreen
-})
+  Login: LoginScreen,
+});
 
-export default createAppContainer(LoginNavigator)
+export default createAppContainer(LoginNavigator);
