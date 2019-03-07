@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   switchSelectorContainer: {
     marginTop: '20%',
     width: '80%',
-    height: '13%',
+    height: '14%',
   },
   numberPickerContainer: {
     flexDirection: 'row',

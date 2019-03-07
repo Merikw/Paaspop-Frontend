@@ -23,4 +23,12 @@ const Post = (url, data) => {
   });
 };
 
-export default Post;
+const Get = url => {
+  return axios({
+    method: 'get',
+    url: `${ROOT_URL}/${url}`,
+    timeout: 2000,
+  });
+};
+
+export { Post, Get };

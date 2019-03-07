@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { LocalStorageKeys } from '../../utilities/constants/constants';
 
-import Post from '../api/serverRequests';
+import { Post } from '../api/serverRequests';
 
 import { ADD_USER_IS_LOADING, ADD_USER_SUCCESS, ADD_USER_FAIL } from './actionTypes';
 
