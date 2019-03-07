@@ -122,19 +122,17 @@ LoginScreen.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   switchSelectorContainer: {
     marginTop: '20%',
-    justifyContent: 'center',
-    height: 30,
     width: '80%',
-    marginBottom: '5%',
+    height: '13%',
   },
   numberPickerContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: '5%',
     marginBottom: '5%',
     width: '80%',
   },

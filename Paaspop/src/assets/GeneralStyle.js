@@ -8,6 +8,12 @@ const Colors = {
   white: 'white',
 };
 
-const Styles = StyleSheet.create({});
+const Styles = StyleSheet.create({
+  mainText: {
+    color: Colors.black,
+    fontFamily: 'LiberationSans-Regular',
+    fontSize: 24,
+  },
+});
 
 export { Colors, Styles };

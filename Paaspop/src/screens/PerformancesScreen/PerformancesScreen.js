@@ -1,13 +1,14 @@
+import React, { Component } from 'react';
 /* eslint react/prefer-stateless-function: 0 */
 
-import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Styles } from '../../assets/GeneralStyle';
 
-class StartScreen extends Component {
+class PerformancesScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Home Screen</Text>
+        <Text style={Styles.mainText}>Stages</Text>
       </View>
     );
   }
@@ -16,9 +17,11 @@ class StartScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    overflow: 'visible',
     alignItems: 'center',
-    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: 'red',
   },
 });
 
-export default StartScreen;
+export default PerformancesScreen;
