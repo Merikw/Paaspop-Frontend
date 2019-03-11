@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PropTypes from 'prop-types';
 
 import { Colors } from '../../assets/GeneralStyle';
 
@@ -11,20 +12,25 @@ class ListItem extends Component {
   };
 
   render() {
-    const { item, opened } = this.props;
-    const key = item.Key;
+    const { name, opened } = this.props;
     return (
       <View style={styles.listItem}>
-        <TouchableOpacity style={styles.textLeft} onPress={this.handleOnOpen(key)}>
-          <Text style={styles.listItemText}>{key}</Text>
+        <TouchableOpacity style={styles.textLeft} onPress={this.handleOnOpen(name)}>
+          <Text style={styles.listItemText}>{name}</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.handleOnOpen(key)}>
+        <TouchableOpacity onPress={this.handleOnOpen(name)}>
           <Icon name={opened ? 'ios-arrow-down' : 'ios-arrow-forward'} size={25} color="black" />
         </TouchableOpacity>
       </View>
     );
   }
 }
+
+ListItem.propTypes = {
+  onOpen: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  opened: PropTypes.bool.isRequired,
+};
 
 const styles = StyleSheet.create({
   listItemText: {

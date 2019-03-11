@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
+import PropTypes from 'prop-types';
 
 import { LocalStorageKeys } from '../../utilities/constants/constants';
 import Loader from '../../components/loader/Loader';
@@ -85,8 +86,8 @@ class PerformancesScreen extends Component {
     const { openendStages, user } = this.state;
     const isOpened = openendStages.indexOf(item.Key) !== -1;
     return (
-      <View key={item.key} style={styles.listItemContainer}>
-        <ListItem item={item} onOpen={this.onOpenStageHandler} opened={isOpened} />
+      <View key={item.Key} style={styles.listItemContainer}>
+        <ListItem name={item.Key} onOpen={this.onOpenStageHandler} opened={isOpened} />
         {isOpened ? (
           <SubListItem
             items={item.Value}
@@ -123,6 +124,21 @@ class PerformancesScreen extends Component {
     );
   }
 }
+
+PerformancesScreen.propTypes = {
+  onGetPerformances: PropTypes.func.isRequired,
+  onUpdateUser: PropTypes.func.isRequired,
+  getPerformancesAction: PropTypes.shape(
+    PropTypes.objectOf,
+    PropTypes.bool,
+    PropTypes.bool,
+    PropTypes.bool
+  ),
+};
+
+PerformancesScreen.defaultProps = {
+  getPerformancesAction: { performances: [], error: false, loading: false, succes: false },
+};
 
 const styles = StyleSheet.create({
   container: {

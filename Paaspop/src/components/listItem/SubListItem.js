@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PropTypes from 'prop-types';
 
 import { Colors } from '../../assets/GeneralStyle';
 
@@ -65,6 +66,17 @@ class SubListItem extends Component {
     );
   }
 }
+
+SubListItem.propTypes = {
+  onPressIcon: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object),
+  favoritePerformances: PropTypes.arrayOf(PropTypes.object),
+};
+
+SubListItem.defaultProps = {
+  items: [{}],
+  favoritePerformances: [{}],
+};
 
 const styles = StyleSheet.create({
   listItemText: {
