@@ -31,4 +31,16 @@ const Get = url => {
   });
 };
 
-export { Post, Get };
+const Update = (url, data) => {
+  return axios({
+    method: 'put',
+    url: `${ROOT_URL}/${url}`,
+    data: data,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+    timeout: 2000,
+  });
+};
+
+export { Post, Get, Update };

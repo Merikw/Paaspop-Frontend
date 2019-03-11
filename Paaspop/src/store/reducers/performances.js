@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   getPerformancesAction: {
-    performances: {},
+    performances: [],
     error: false,
     loading: false,
     succes: false,
@@ -29,7 +29,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         getPerformancesAction: {
-          performances: action.payload,
+          performances: action.payload.Performances,
           loading: false,
           error: false,
           succes: true,

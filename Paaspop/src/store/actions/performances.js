@@ -14,10 +14,8 @@ export const getPerformances = () => {
         if (result.status !== 200) {
           throw Error(result.statusText);
         }
-
         return result.data;
       })
-      .then(result => JSON.stringify(result))
       .then(performances => dispatch(getPerformancesSuccess(performances)))
       .catch(() => dispatch(getPerformancesFailure(true)));
   };

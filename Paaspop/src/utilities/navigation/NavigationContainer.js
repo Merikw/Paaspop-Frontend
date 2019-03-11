@@ -25,7 +25,7 @@ const AppNavigator = createStackNavigator({
           screen: MapScreen,
           navigationOptions: {
             tabBarLabel: 'Plattegrond',
-            tabBarIcon: ({ tintColor }) => <Icon name="md-map" size={20} color={tintColor} />,
+            tabBarIcon: ({ tintColor }) => <Icon name="md-map" size={25} color={tintColor} />,
           },
         },
         Performances: {
@@ -33,7 +33,7 @@ const AppNavigator = createStackNavigator({
           navigationOptions: {
             tabBarLabel: 'Artiesten',
             tabBarIcon: ({ tintColor }) => (
-              <Icon name="md-microphone" size={20} color={tintColor} />
+              <Icon name="md-microphone" size={25} color={tintColor} />
             ),
           },
         },
@@ -41,14 +41,14 @@ const AppNavigator = createStackNavigator({
           screen: PlacesScreen,
           navigationOptions: {
             tabBarLabel: 'Plekken',
-            tabBarIcon: ({ tintColor }) => <Icon name="md-locate" size={20} color={tintColor} />,
+            tabBarIcon: ({ tintColor }) => <Icon name="md-locate" size={25} color={tintColor} />,
           },
         },
         Own: {
           screen: OwnScreen,
           navigationOptions: {
             tabBarLabel: 'Zelf',
-            tabBarIcon: ({ tintColor }) => <Icon name="md-person" size={20} color={tintColor} />,
+            tabBarIcon: ({ tintColor }) => <Icon name="md-person" size={25} color={tintColor} />,
           },
         },
       },
@@ -66,7 +66,7 @@ const AppNavigator = createStackNavigator({
             alignItems: 'center',
           },
           labelStyle: {
-            fontSize: 14,
+            fontSize: 16,
             fontFamily: 'LiberationSans-Regular',
             padding: 0,
             margin: 0,
