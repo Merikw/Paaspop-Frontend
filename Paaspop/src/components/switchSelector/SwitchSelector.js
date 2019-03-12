@@ -65,6 +65,7 @@ SwitchSelector.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
+    height: '100%',
     width: '100%',
     flexDirection: 'row',
     borderWidth: 3,
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    height: 40,
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     borderRightWidth: 3,

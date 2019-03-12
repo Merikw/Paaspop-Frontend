@@ -63,6 +63,10 @@
 		21940CCA8B1B4704BCF235B1 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A11049D4F1B4FC49F0B6EF9 /* Zocial.ttf */; };
 		08770BC2A89447249085E2A9 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6E8ACA5B594BBAA7DFDE23 /* libReactNativeConfig.a */; };
 		9BC5A7D2997C4283A94726DC /* libReactNativeConfig-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEDF2F19F8C44EBE9CFAAA36 /* libReactNativeConfig-tvOS.a */; };
+		94ACE49103174FBD93F00474 /* LiberationMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C35D18AC548C4D5CAF243060 /* LiberationMono-Bold.ttf */; };
+		74E50C69B5BE4B2996AB5F52 /* LiberationMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F85A045142174FFEA1A0F07C /* LiberationMono-BoldItalic.ttf */; };
+		5B7FE41B5A1147FE97C4282C /* LiberationMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1618261FAB6B4EE78708E718 /* LiberationMono-Italic.ttf */; };
+		7B41B4F5A15D4F7DB1355948 /* LiberationMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 96ED63EF9EF84598A3BE53A1 /* LiberationMono-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -397,6 +401,10 @@
 		AF2F2462D8E24A629E707756 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeConfig.xcodeproj"; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		0E6E8ACA5B594BBAA7DFDE23 /* libReactNativeConfig.a */ = {isa = PBXFileReference; name = "libReactNativeConfig.a"; path = "libReactNativeConfig.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		CEDF2F19F8C44EBE9CFAAA36 /* libReactNativeConfig-tvOS.a */ = {isa = PBXFileReference; name = "libReactNativeConfig-tvOS.a"; path = "libReactNativeConfig-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		C35D18AC548C4D5CAF243060 /* LiberationMono-Bold.ttf */ = {isa = PBXFileReference; name = "LiberationMono-Bold.ttf"; path = "../src/assets/fonts/LiberationMono-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F85A045142174FFEA1A0F07C /* LiberationMono-BoldItalic.ttf */ = {isa = PBXFileReference; name = "LiberationMono-BoldItalic.ttf"; path = "../src/assets/fonts/LiberationMono-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1618261FAB6B4EE78708E718 /* LiberationMono-Italic.ttf */ = {isa = PBXFileReference; name = "LiberationMono-Italic.ttf"; path = "../src/assets/fonts/LiberationMono-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		96ED63EF9EF84598A3BE53A1 /* LiberationMono-Regular.ttf */ = {isa = PBXFileReference; name = "LiberationMono-Regular.ttf"; path = "../src/assets/fonts/LiberationMono-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -693,6 +701,10 @@
 				A4F602DA77BB4193A6D6B66F /* Octicons.ttf */,
 				32A3D0D331814366BD69AA73 /* SimpleLineIcons.ttf */,
 				9A11049D4F1B4FC49F0B6EF9 /* Zocial.ttf */,
+				C35D18AC548C4D5CAF243060 /* LiberationMono-Bold.ttf */,
+				F85A045142174FFEA1A0F07C /* LiberationMono-BoldItalic.ttf */,
+				1618261FAB6B4EE78708E718 /* LiberationMono-Italic.ttf */,
+				96ED63EF9EF84598A3BE53A1 /* LiberationMono-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1163,6 +1175,10 @@
 				E7EB010885C6436DA3297D31 /* Octicons.ttf in Resources */,
 				F927EE5980F84BAAAB6D532C /* SimpleLineIcons.ttf in Resources */,
 				21940CCA8B1B4704BCF235B1 /* Zocial.ttf in Resources */,
+				94ACE49103174FBD93F00474 /* LiberationMono-Bold.ttf in Resources */,
+				74E50C69B5BE4B2996AB5F52 /* LiberationMono-BoldItalic.ttf in Resources */,
+				5B7FE41B5A1147FE97C4282C /* LiberationMono-Italic.ttf in Resources */,
+				7B41B4F5A15D4F7DB1355948 /* LiberationMono-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

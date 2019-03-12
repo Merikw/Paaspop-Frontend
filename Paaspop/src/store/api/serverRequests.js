@@ -23,4 +23,24 @@ const Post = (url, data) => {
   });
 };
 
-export default Post;
+const Get = url => {
+  return axios({
+    method: 'get',
+    url: `${ROOT_URL}/${url}`,
+    timeout: 2000,
+  });
+};
+
+const Update = (url, data) => {
+  return axios({
+    method: 'put',
+    url: `${ROOT_URL}/${url}`,
+    data: data,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+    timeout: 2000,
+  });
+};
+
+export { Post, Get, Update };
