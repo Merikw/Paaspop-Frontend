@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import PropTypes from 'prop-types';
 
 import Loader from '../../components/loader/Loader';
 import { getBestPlaces } from '../../store/actions/places';
@@ -23,7 +24,7 @@ class PlacesScreen extends Component {
         user: response,
       });
       onGetBestPlaces(response.currentLocation.latitude, response.currentLocation.longitude);
-      navigation.addListener('willFocus', payload => {
+      navigation.addListener('willFocus', () => {
         onGetBestPlaces(response.currentLocation.latitude, response.currentLocation.longitude);
       });
     }
@@ -77,6 +78,31 @@ class PlacesScreen extends Component {
     );
   }
 }
+
+PlacesScreen.propTypes = {
+  getBestPlacesAction: PropTypes.shape(
+    PropTypes.shape(PropTypes.arrayOf, PropTypes.number),
+    PropTypes.bool,
+    PropTypes.bool,
+    PropTypes.bool
+  ),
+  onGetBestPlaces: PropTypes.func.isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+PlacesScreen.defaultProps = {
+  getBestPlacesAction: {
+    bestPlaces: {
+      BestPlaces: [],
+      MaxPercentage: 1,
+    },
+    error: false,
+    loading: false,
+    succes: false,
+  },
+};
 
 const styles = StyleSheet.create({
   container: {

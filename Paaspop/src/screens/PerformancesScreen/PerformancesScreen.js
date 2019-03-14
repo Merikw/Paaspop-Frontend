@@ -20,7 +20,7 @@ class PerformancesScreen extends Component {
   async componentDidMount() {
     const { onGetPerformances, navigation } = this.props;
     onGetPerformances();
-    navigation.addListener('willFocus', payload => {
+    navigation.addListener('willFocus', () => {
       onGetPerformances();
     });
     const response = await getUser();
@@ -133,6 +133,9 @@ PerformancesScreen.propTypes = {
     PropTypes.bool,
     PropTypes.bool
   ),
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 PerformancesScreen.defaultProps = {
