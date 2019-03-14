@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { LocalStorageKeys } from '../../utilities/constants/constants';
 import Loader from '../../components/loader/Loader';
 import { getPerformances } from '../../store/actions/performances';
 import { updateUser } from '../../store/actions/users';
 import { Styles } from '../../assets/GeneralStyle';
 import ListItem from '../../components/listItem/ListItem';
-import SubListItem from '../../components/listItem/SubListItem';
+import SubListItemPerformances from '../../components/listItem/SubListItemPerformances';
+import getUser from '../../utilities/getUser/getUser';
 
 class PerformancesScreen extends Component {
   state = {
@@ -20,29 +20,24 @@ class PerformancesScreen extends Component {
   async componentDidMount() {
     const { onGetPerformances } = this.props;
     onGetPerformances();
-    await this.getUser();
+    const response = await getUser();
+    if (response) {
+      this.setState({
+        user: response,
+      });
+    }
   }
 
-  getUser = async () => {
-    try {
-      const value = await AsyncStorage.getItem(LocalStorageKeys.User.Key);
-      if (value !== null) {
-        this.setState({
-          user: JSON.parse(value),
-        });
-      }
-    } catch (error) {
-      alert('Kan de gebruiker niet ophalen, start de app opnieuw op.');
-    }
-  };
-
   onOpenStageHandler = key => {
-    this.setState(prevstate => ({
-      ...prevstate,
-      openendStage: prevstate.openendStages.includes(key)
-        ? prevstate.openendStages.splice(prevstate.openendStages.indexOf(key), 1)
-        : prevstate.openendStages.push(key),
-    }));
+    const { openendStages } = this.state;
+    const newOpenedStages = openendStages;
+    openendStages.includes(key)
+      ? newOpenedStages.splice(newOpenedStages.indexOf(key), 1)
+      : newOpenedStages.push(key),
+      this.setState(prevstate => ({
+        ...prevstate,
+        openendStages: newOpenedStages,
+      }));
   };
 
   updateFavorite = performanceId => {
@@ -89,10 +84,11 @@ class PerformancesScreen extends Component {
       <View key={item.Key} style={styles.listItemContainer}>
         <ListItem name={item.Key} onOpen={this.onOpenStageHandler} opened={isOpened} />
         {isOpened ? (
-          <SubListItem
+          <SubListItemPerformances
             items={item.Value}
             favoritePerformances={user.favoritePerformances}
             onPressIcon={this.updateFavorite}
+            favoriteIcon
           />
         ) : (
           <View />

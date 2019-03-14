@@ -6,6 +6,7 @@ const Colors = {
   transparentBackground: '#00000040',
   black: 'black',
   white: 'white',
+  gray: '#B3B3B3',
 };
 
 const Styles = StyleSheet.create({
