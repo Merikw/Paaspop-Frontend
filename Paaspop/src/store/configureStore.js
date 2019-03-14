@@ -3,10 +3,12 @@ import thunk from 'redux-thunk';
 
 import usersReducer from './reducers/users';
 import performancesReducer from './reducers/performances';
+import placesReducer from './reducers/places';
 
 const rootReducer = combineReducers({
   usersStore: usersReducer,
   performancesStore: performancesReducer,
+  placesStore: placesReducer,
 });
 
 const configureStore = () => {

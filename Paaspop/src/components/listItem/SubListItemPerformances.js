@@ -96,13 +96,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: '3%',
-    paddingLeft: '3%',
+    paddingLeft: '2%',
   },
   iconsContainer: {
     justifyContent: 'center',
   },
   iconsRight: {
-    paddingRight: '3%',
+    paddingRight: '2%',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
