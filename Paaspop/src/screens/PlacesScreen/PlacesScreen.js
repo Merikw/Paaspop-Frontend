@@ -16,15 +16,19 @@ class PlacesScreen extends Component {
   };
 
   async componentDidMount() {
-    const { onGetBestPlaces } = this.props;
+    const { navigation, onGetBestPlaces } = this.props;
     const response = await getUser();
     if (response) {
       this.setState({
         user: response,
       });
+      onGetBestPlaces(response.currentLocation.latitude, response.currentLocation.longitude);
+      navigation.addListener('willFocus', payload => {
+        onGetBestPlaces(response.currentLocation.latitude, response.currentLocation.longitude);
+      });
     }
-    onGetBestPlaces(response.currentLocation.latitude, response.currentLocation.longitude);
   }
+
   onOpenPlaceHandler = key => {
     const { openendPlaces } = this.state;
     const newOpenendPlaces = openendPlaces;
@@ -37,14 +41,14 @@ class PlacesScreen extends Component {
       }));
   };
 
-  renderListItems = item => {
+  renderListItems = (item, maxPercentage) => {
     const { openendPlaces } = this.state;
     const isOpened = openendPlaces.indexOf(item.Key) !== -1;
     return (
       <View key={item.Key} style={styles.listItemContainer}>
         <ListItemPlaces name={item.Key} onOpen={this.onOpenPlaceHandler} opened={isOpened} />
         {isOpened ? (
-          <SubListItemPlaces maxPercentage={item.MaxPercentage} items={item.Value} />
+          <SubListItemPlaces maxPercentage={maxPercentage} items={item.Value} />
         ) : (
           <View />
         )}
@@ -62,8 +66,8 @@ class PlacesScreen extends Component {
         </View>
         <ScrollView>
           {getBestPlacesAction.bestPlaces ? (
-            getBestPlacesAction.bestPlaces.map(item => {
-              return this.renderListItems(item);
+            getBestPlacesAction.bestPlaces.BestPlaces.map(item => {
+              return this.renderListItems(item, getBestPlacesAction.bestPlaces.MaxPercentage);
             })
           ) : (
             <View />

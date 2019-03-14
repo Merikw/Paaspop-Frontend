@@ -6,7 +6,10 @@ import {
 
 const initialState = {
   getBestPlacesAction: {
-    bestPlaces: [],
+    bestPlaces: {
+      BestPlaces: [],
+      MaxPercentage: 1,
+    },
     error: false,
     loading: false,
     succes: false,
@@ -29,7 +32,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         getBestPlacesAction: {
-          bestPlaces: action.payload.BestPlaces,
+          bestPlaces: action.payload,
           loading: false,
           error: false,
           succes: true,

@@ -18,8 +18,11 @@ class PerformancesScreen extends Component {
   };
 
   async componentDidMount() {
-    const { onGetPerformances } = this.props;
+    const { onGetPerformances, navigation } = this.props;
     onGetPerformances();
+    navigation.addListener('willFocus', payload => {
+      onGetPerformances();
+    });
     const response = await getUser();
     if (response) {
       this.setState({
