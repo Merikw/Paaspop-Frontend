@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Image, StyleSheet, AsyncStorage } from 'react-native';
+import { View, Image, StyleSheet, AsyncStorage, PermissionsAndroid, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { LocalStorageKeys } from '../../utilities/constants/constants';
@@ -12,13 +12,28 @@ import { updateUser } from '../../store/actions/users';
 
 class SplashScreen extends Component {
   async componentDidMount() {
-    const data = await this.getUser();
-    const { navigation, onUpdateUser } = this.props;
-    if (data) {
-      UpdateLocationTask(onUpdateUser, navigator);
-      navigation.navigate('App');
-    } else {
-      navigation.navigate('Login');
+    let granted;
+    if (Platform.OS === 'android') {
+      granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Paaspop locatie toegang',
+          message:
+            'Paaspop festival app heeft uw locatie nodig om te bepalen hoe druk het is op bepaalde punten.',
+          buttonPositive: 'OK',
+        }
+      );
+    }
+
+    if (granted === PermissionsAndroid.RESULTS.GRANTED || Platform.OS === 'ios') {
+      const data = await this.getUser();
+      const { navigation, onUpdateUser } = this.props;
+      if (data) {
+        UpdateLocationTask(onUpdateUser, navigator);
+        navigation.navigate('App');
+      } else {
+        navigation.navigate('Login');
+      }
     }
   }
 
