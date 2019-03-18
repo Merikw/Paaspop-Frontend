@@ -84,10 +84,10 @@ class NumberPicker extends Component {
             />
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={this.onButtonChange('plus')}>
-                <Icon name="ios-arrow-up" size={15} color="black" />
+                <Icon name="ios-arrow-up" size={25} color="black" />
               </TouchableOpacity>
               <TouchableOpacity onPress={this.onButtonChange('minus')}>
-                <Icon name="ios-arrow-down" size={15} color="black" />
+                <Icon name="ios-arrow-down" size={25} color="black" />
               </TouchableOpacity>
             </View>
           </View>
@@ -130,13 +130,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   textInput: {
-    fontSize: 22,
+    fontSize: 26,
     fontFamily: 'LiberationSans-Regular',
     paddingTop: 0,
     paddingBottom: 0,
   },
   label: {
-    fontSize: 22,
+    fontSize: 24,
     fontFamily: 'LiberationSans-Regular',
     color: Colors.black,
   },

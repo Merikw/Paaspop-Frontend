@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRightWidth: 3,
+    borderRightWidth: 2,
     borderColor: Colors.primary,
   },
   lastButton: {
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   textUnselected: {
     color: Colors.black,
     fontFamily: 'LiberationSans-Regular',
-    fontSize: 18,
+    fontSize: 20,
   },
 });
 
