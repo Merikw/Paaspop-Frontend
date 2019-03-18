@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Header from '../../components/header/Header';
 import SwitchSelector from '../../components/switchSelector/SwitchSelector';
-import NumberPicker from '../../components/numberPicker/NumberPicker';
+import NumberPicker from '../../components/numberPicker/numberPicker';
 import Button from '../../components/button/Button';
 import Loader from '../../components/loader/Loader';
 
