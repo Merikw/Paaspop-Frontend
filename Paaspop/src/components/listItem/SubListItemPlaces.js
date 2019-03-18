@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   listItemText: {
     color: Colors.black,
     fontFamily: 'LiberationSans-Regular',
-    fontSize: 18,
+    fontSize: 16,
   },
   listItemTextContainer: {
     width: '40%',
