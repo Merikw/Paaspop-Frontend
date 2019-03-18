@@ -4,6 +4,7 @@
 
 # Custom
 *.env
+**/*.p12
 
 ### ReactNative ###
 # React Native Stack Base
