@@ -47,13 +47,11 @@ class PerformancesScreen extends Component {
     const { onUpdateUser, getPerformancesAction } = this.props;
     const { user } = this.state;
     const favoritePerformances = user.favoritePerformances;
-    const foundPerformance = favoritePerformances.find(
-      p => p.id === performanceId || p.Id == performanceId
-    );
+    const foundPerformance = favoritePerformances.find(p => p.id === performanceId);
     let updateUser;
     if (!foundPerformance) {
       getPerformancesAction.performances.forEach(s => {
-        let performance = s.Value.find(p => p.Id === performanceId);
+        let performance = s.value.find(p => p.id === performanceId);
         if (performance) {
           favoritePerformances.push(performance);
         }
@@ -63,9 +61,7 @@ class PerformancesScreen extends Component {
         favoritePerformances: favoritePerformances,
       };
     } else {
-      const index = favoritePerformances.findIndex(
-        p => p.id === performanceId || p.Id === performanceId
-      );
+      const index = favoritePerformances.findIndex(p => p.id === performanceId);
       favoritePerformances.splice(index, 1);
       updateUser = {
         ...user,
@@ -82,20 +78,22 @@ class PerformancesScreen extends Component {
 
   renderListItems = item => {
     const { openendStages, user } = this.state;
-    const isOpened = openendStages.indexOf(item.Key) !== -1;
+    const isOpened = openendStages.indexOf(item.key) !== -1;
     return (
-      <View key={item.Key} style={styles.listItemContainer}>
-        <ListItem name={item.Key} onOpen={this.onOpenStageHandler} opened={isOpened} />
-        {isOpened ? (
-          <SubListItemPerformances
-            items={item.Value}
-            favoritePerformances={user.favoritePerformances}
-            onPressIcon={this.updateFavorite}
-            favoriteIcon
-          />
-        ) : (
-          <View />
-        )}
+      <View key={item.key} style={styles.listItemContainer}>
+        <ListItem name={item.key} onOpen={this.onOpenStageHandler} opened={isOpened} />
+        <ScrollView>
+          {isOpened ? (
+            <SubListItemPerformances
+              items={item.value}
+              favoritePerformances={user.favoritePerformances}
+              onPressIcon={this.updateFavorite}
+              favoriteIcon
+            />
+          ) : (
+            <View />
+          )}
+        </ScrollView>
       </View>
     );
   };
@@ -110,15 +108,13 @@ class PerformancesScreen extends Component {
           />
           <Text style={Styles.mainText}>Stages</Text>
         </View>
-        <ScrollView>
-          {getPerformancesAction.performances ? (
-            getPerformancesAction.performances.map(item => {
-              return this.renderListItems(item);
-            })
-          ) : (
-            <View />
-          )}
-        </ScrollView>
+        {getPerformancesAction.performances ? (
+          getPerformancesAction.performances.map(item => {
+            return this.renderListItems(item);
+          })
+        ) : (
+          <View />
+        )}
       </View>
     );
   }

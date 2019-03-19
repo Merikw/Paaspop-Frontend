@@ -12,12 +12,12 @@ class SubListItem extends Component {
   };
 
   render() {
-    const { items, favoritePerformances } = this.props;
+    const { items, favoritePerformances, favoriteIcon, showStage } = this.props;
     return (
       <View>
         {items.map(performance => {
-          let date = performance.PerformanceTime.Day;
-          switch (performance.PerformanceTime.Day) {
+          let date = performance.performanceTime.day;
+          switch (performance.performanceTime.day) {
             case 5:
               date = 'Vr';
               break;
@@ -29,30 +29,34 @@ class SubListItem extends Component {
               break;
           }
           return (
-            <View key={performance.Id} style={styles.listItem}>
+            <View key={performance.id} style={styles.listItem}>
               <TouchableOpacity>
-                <Text style={styles.listItemText}>{performance.Artist.Name}</Text>
+                <Text style={styles.listItemText}>{performance.artist.name}</Text>
                 <Text style={styles.listItemSubText}>{`${date} (${
-                  performance.PerformanceTime.StartTime
-                } - ${performance.PerformanceTime.EndTime})`}</Text>
+                  performance.performanceTime.startTime
+                } - ${performance.performanceTime.endTime}) - ${
+                  showStage ? performance.stage.name : ''
+                }`}</Text>
               </TouchableOpacity>
               <View style={styles.iconsContainer}>
                 <View style={styles.iconsRight}>
                   <TouchableOpacity
                     style={styles.favoriteIcon}
-                    onPress={this.onPressIcon(performance.Id)}
+                    onPress={this.onPressIcon(performance.id)}
                   >
-                    <Icon
-                      name={
-                        favoritePerformances.findIndex(
-                          p => p.id === performance.Id || p.Id === performance.Id
-                        ) !== -1
-                          ? 'md-heart'
-                          : 'md-heart-empty'
-                      }
-                      size={25}
-                      color={Colors.primary}
-                    />
+                    {favoriteIcon ? (
+                      <Icon
+                        name={
+                          favoritePerformances.findIndex(p => p.id === performance.id) !== -1
+                            ? 'md-heart'
+                            : 'md-heart-empty'
+                        }
+                        size={25}
+                        color={Colors.primary}
+                      />
+                    ) : (
+                      <View />
+                    )}
                   </TouchableOpacity>
                   <TouchableOpacity>
                     <Icon name="ios-arrow-forward" size={20} color="#CACACA" />
@@ -71,11 +75,13 @@ SubListItem.propTypes = {
   onPressIcon: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   favoritePerformances: PropTypes.arrayOf(PropTypes.object),
+  favoriteIcon: PropTypes.bool,
 };
 
 SubListItem.defaultProps = {
   items: [{}],
   favoritePerformances: [{}],
+  favoriteIcon: false,
 };
 
 const styles = StyleSheet.create({

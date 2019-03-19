@@ -9,21 +9,21 @@ const SubListItem = props => {
   return (
     <View>
       {items.map(bestPlace => {
-        const place = bestPlace.Place;
+        const place = bestPlace.place;
         return (
-          <View key={place.Id} style={styles.listItem}>
+          <View key={place.id} style={styles.listItem}>
             <TouchableOpacity style={styles.listItemTextContainer}>
-              <Text style={styles.listItemText}>{place.Name}</Text>
+              <Text style={styles.listItemText}>{place.name}</Text>
             </TouchableOpacity>
             <View style={styles.secondListItemTextContainer}>
-              <Text style={styles.listItemText}>{`${bestPlace.Distance.AbsoluteDistance}M`}</Text>
+              <Text style={styles.listItemText}>{`${bestPlace.distance.absoluteDistance}M`}</Text>
             </View>
             <View style={styles.crowdBarContainer}>
               <View style={styles.crowdBar}>
                 <View
                   style={[
                     {
-                      width: `${(place.CrowdPercentage.AbsolutePercentage / maxPercentage) * 100}%`,
+                      width: `${(place.crowdPercentage.absolutePercentage / maxPercentage) * 100}%`,
                     },
                     styles.filler,
                   ]}
