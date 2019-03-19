@@ -44,12 +44,12 @@ class PlacesScreen extends Component {
 
   renderListItems = (item, maxPercentage) => {
     const { openendPlaces } = this.state;
-    const isOpened = openendPlaces.indexOf(item.Key) !== -1;
+    const isOpened = openendPlaces.indexOf(item.key) !== -1;
     return (
-      <View key={item.Key} style={styles.listItemContainer}>
-        <ListItemPlaces name={item.Key} onOpen={this.onOpenPlaceHandler} opened={isOpened} />
+      <View key={item.key} style={styles.listItemContainer}>
+        <ListItemPlaces name={item.key} onOpen={this.onOpenPlaceHandler} opened={isOpened} />
         {isOpened ? (
-          <SubListItemPlaces maxPercentage={maxPercentage} items={item.Value} />
+          <SubListItemPlaces maxPercentage={maxPercentage} items={item.value} />
         ) : (
           <View />
         )}
@@ -67,8 +67,8 @@ class PlacesScreen extends Component {
         </View>
         <ScrollView>
           {getBestPlacesAction.bestPlaces ? (
-            getBestPlacesAction.bestPlaces.BestPlaces.map(item => {
-              return this.renderListItems(item, getBestPlacesAction.bestPlaces.MaxPercentage);
+            getBestPlacesAction.bestPlaces.bestPlaces.map(item => {
+              return this.renderListItems(item, getBestPlacesAction.bestPlaces.maxPercentage);
             })
           ) : (
             <View />
@@ -95,8 +95,8 @@ PlacesScreen.propTypes = {
 PlacesScreen.defaultProps = {
   getBestPlacesAction: {
     bestPlaces: {
-      BestPlaces: [],
-      MaxPercentage: 1,
+      bestPlaces: [],
+      maxPercentage: 1,
     },
     error: false,
     loading: false,

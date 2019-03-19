@@ -7,8 +7,8 @@ import {
 const initialState = {
   getBestPlacesAction: {
     bestPlaces: {
-      BestPlaces: [],
-      MaxPercentage: 1,
+      bestPlaces: [],
+      maxPercentage: 1,
     },
     error: false,
     loading: false,

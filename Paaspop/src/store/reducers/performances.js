@@ -2,10 +2,19 @@ import {
   GET_PERFORMANCES_IS_LOADING,
   GET_PERFORMANCES_SUCCESS,
   GET_PERFORMANCES_FAIL,
+  GET_FAVORITE_PERFORMANCES_IS_LOADING,
+  GET_FAVORITE_PERFORMANCES_SUCCESS,
+  GET_FAVORITE_PERFORMANCES_FAIL,
 } from '../actions/actionTypes';
 
 const initialState = {
   getPerformancesAction: {
+    performances: [],
+    error: false,
+    loading: false,
+    succes: false,
+  },
+  getFavoritePerformancesAction: {
     performances: [],
     error: false,
     loading: false,
@@ -29,7 +38,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         getPerformancesAction: {
-          performances: action.payload.Performances,
+          performances: action.payload.performances,
           loading: false,
           error: false,
           succes: true,
@@ -39,6 +48,36 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         getPerformancesAction: {
+          performances: null,
+          loading: false,
+          error: action.payload,
+          succes: false,
+        },
+      };
+    case GET_FAVORITE_PERFORMANCES_IS_LOADING:
+      return {
+        ...state,
+        getFavoritePerformancesAction: {
+          performances: null,
+          loading: action.payload,
+          error: false,
+          succes: false,
+        },
+      };
+    case GET_FAVORITE_PERFORMANCES_SUCCESS:
+      return {
+        ...state,
+        getFavoritePerformancesAction: {
+          performances: action.payload,
+          loading: false,
+          error: false,
+          succes: true,
+        },
+      };
+    case GET_FAVORITE_PERFORMANCES_FAIL:
+      return {
+        ...state,
+        getFavoritePerformancesAction: {
           performances: null,
           loading: false,
           error: action.payload,
