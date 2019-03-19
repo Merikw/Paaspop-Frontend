@@ -7,9 +7,11 @@ import {
 } from './actionTypes';
 
 export const getBestPlaces = (lat, lon) => {
+  const latitude = lat ? lat : 51.619991;
+  const longitude = lon ? lon : 5.43434;
   return dispatch => {
     dispatch(getBestPlacesIsLoading(true));
-    Get(`places/best/${lat}/${lon}`)
+    Get(`places/best/${latitude}/${longitude}`)
       .then(result => {
         if (result.status !== 200) {
           throw Error(result.statusText);
