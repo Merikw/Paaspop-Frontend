@@ -7,7 +7,7 @@ import { Switch } from 'react-native-switch';
 import Loader from '../../components/loader/Loader';
 import CustomModal from '../../components/modal/Modal';
 import { getFavoritePerformances } from '../../store/actions/performances';
-import { updateUser } from '../../store/actions/users';
+import { updateUser, removeUser } from '../../store/actions/users';
 import { Styles, Colors } from '../../assets/GeneralStyle';
 import ListItem from '../../components/listItem/ListItem';
 import SubListItemPerformances from '../../components/listItem/SubListItemPerformances';
@@ -31,6 +31,13 @@ class OwnScreen extends Component {
       navigation.addListener('willFocus', () => {
         onGetFavoritePerformances(response.id);
       });
+    }
+  }
+
+  componentDidUpdate() {
+    const { removeUserAction, navigation } = this.props;
+    if (removeUserAction.succes) {
+      navigation.navigate('Splash');
     }
   }
 
@@ -66,6 +73,13 @@ class OwnScreen extends Component {
     onUpdateUser(newUser);
   };
 
+  removeUser = () => {
+    const { onRemoveUser } = this.props;
+    const { user } = this.state;
+    this.handleModal();
+    onRemoveUser(user.id);
+  };
+
   handleModal = () => {
     this.setState(prevState => {
       return {
@@ -87,14 +101,14 @@ class OwnScreen extends Component {
   };
 
   render() {
-    const { getFavoritePerformancesAction } = this.props;
-    const { user } = this.state;
+    const { getFavoritePerformancesAction, removeUserAction } = this.props;
+    const { user, visible } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.innerContainer}>
           <Loader
             isLoading={
-              getFavoritePerformancesAction.loading ? getFavoritePerformancesAction.loading : false
+              getFavoritePerformancesAction.loading || removeUserAction.loading ? true : false
             }
           />
           <Text style={Styles.mainText}>Zelf</Text>
@@ -124,16 +138,18 @@ class OwnScreen extends Component {
         </TouchableOpacity>
         <CustomModal
           onClose={this.handleModal}
-          visible={this.state.visible}
+          visible={visible}
           title="Wilt je jouw account definitief verwijderen?"
         >
           <View style={styles.centerContainer}>
             <View style={styles.modalContainer}>
-              <TouchableOpacity onPress={this.handleModal}>
+              <TouchableOpacity onPress={this.removeUser}>
                 <Text style={[styles.buttonText, styles.dangerText]}>Ja</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.handleModal}>
-                <Text style={[styles.buttonText, styles.primaryText]}>Nee</Text>
+              <TouchableOpacity>
+                <Text onPress={this.handleModal} style={[styles.buttonText, styles.primaryText]}>
+                  Nee
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -151,12 +167,14 @@ class OwnScreen extends Component {
 OwnScreen.propTypes = {
   onGetFavoritePerformances: PropTypes.func.isRequired,
   onUpdateUser: PropTypes.func.isRequired,
+  onRemoveUser: PropTypes.func.isRequired,
   getFavoritePerformancesAction: PropTypes.shape(
     PropTypes.objectOf,
     PropTypes.bool,
     PropTypes.bool,
     PropTypes.bool
   ),
+  removeUserAction: PropTypes.shape(PropTypes.bool, PropTypes.bool, PropTypes.bool),
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
@@ -164,6 +182,7 @@ OwnScreen.propTypes = {
 
 OwnScreen.defaultProps = {
   getFavoritePerformancesAction: { performances: [], error: false, loading: false, succes: false },
+  removeUserAction: { error: false, loading: false, succes: false },
 };
 
 const styles = StyleSheet.create({
@@ -214,6 +233,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     getFavoritePerformancesAction: state.performancesStore.getFavoritePerformancesAction,
+    removeUserAction: state.usersStore.removeUserAction,
   };
 };
 
@@ -221,6 +241,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onGetFavoritePerformances: userId => dispatch(getFavoritePerformances(userId)),
     onUpdateUser: user => dispatch(updateUser(user)),
+    onRemoveUser: userId => dispatch(removeUser(userId)),
   };
 };
 

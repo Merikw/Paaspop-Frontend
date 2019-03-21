@@ -5,6 +5,9 @@ import {
   UPDATE_USER_IS_LOADING,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAIL,
+  REMOVE_USER_IS_LOADING,
+  REMOVE_USER_SUCCESS,
+  REMOVE_USER_FAIL,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -17,6 +20,11 @@ const initialState = {
 
   updateUserAction: {
     updateUser: {},
+    error: false,
+    loading: false,
+    succes: false,
+  },
+  removeUserAction: {
     error: false,
     loading: false,
     succes: false,
@@ -67,6 +75,33 @@ const reducer = (state = initialState, action) => {
           updateUser: null,
           loading: false,
           error: action.payload,
+          succes: false,
+        },
+      };
+    case REMOVE_USER_IS_LOADING:
+      return {
+        ...state,
+        removeUserAction: {
+          error: false,
+          loading: true,
+          succes: false,
+        },
+      };
+    case REMOVE_USER_SUCCESS:
+      return {
+        ...state,
+        removeUserAction: {
+          error: false,
+          loading: false,
+          succes: true,
+        },
+      };
+    case REMOVE_USER_FAIL:
+      return {
+        ...state,
+        removeUserAction: {
+          error: action.payload,
+          loading: false,
           succes: false,
         },
       };

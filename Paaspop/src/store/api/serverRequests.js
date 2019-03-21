@@ -43,4 +43,12 @@ const Update = (url, data) => {
   });
 };
 
-export { Post, Get, Update };
+const Delete = url => {
+  return axios({
+    method: 'Delete',
+    url: `${ROOT_URL}/${url}`,
+    timeout: 2000,
+  });
+};
+
+export { Post, Get, Update, Delete };

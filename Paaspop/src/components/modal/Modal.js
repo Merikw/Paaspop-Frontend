@@ -5,20 +5,29 @@ import Dialog, {
   DialogButton,
   ScaleAnimation,
 } from 'react-native-popup-dialog';
+import PropTypes from 'prop-types';
 
-const Modal = props => {
+const CustomModal = props => {
+  const { onClose, visible, title, children } = props;
   return (
     <Dialog
-      onTouchOutside={props.onClose}
+      onTouchOutside={onClose}
       width={0.9}
-      visible={props.visible}
+      visible={visible}
       dialogAnimation={new ScaleAnimation()}
-      dialogTitle={<DialogTitle title={props.title} hasTitleBar={false} />}
-      actions={[<DialogButton text="DISMISS" onPress={props.onClose} key="button-1" />]}
+      dialogTitle={<DialogTitle title={title} hasTitleBar={false} />}
+      actions={[<DialogButton text="DISMISS" onPress={onClose} key="button-1" />]}
     >
-      <DialogContent>{props.children}</DialogContent>
+      <DialogContent>{children}</DialogContent>
     </Dialog>
   );
 };
 
-export default Modal;
+CustomModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+export default CustomModal;
