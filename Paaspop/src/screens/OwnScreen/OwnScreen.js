@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Switch } from 'react-native-switch';
 import Loader from '../../components/loader/Loader';
+import CustomModal from '../../components/modal/Modal';
 import { getFavoritePerformances } from '../../store/actions/performances';
 import { updateUser } from '../../store/actions/users';
 import { Styles, Colors } from '../../assets/GeneralStyle';
@@ -16,6 +17,7 @@ class OwnScreen extends Component {
   state = {
     isOpened: false,
     user: {},
+    visible: false,
   };
 
   async componentDidMount() {
@@ -64,10 +66,18 @@ class OwnScreen extends Component {
     onUpdateUser(newUser);
   };
 
+  handleModal = () => {
+    this.setState(prevState => {
+      return {
+        visible: !prevState.visible,
+      };
+    });
+  };
+
   renderListItems = favoritePerformances => {
     const { isOpened } = this.state;
     return (
-      <View>
+      <View stlye={styles.favoritePerformancesContainer}>
         <ListItem name="Mijn rooster" onOpen={this.onOpenStageHandler} opened={isOpened} />
         <ScrollView>
           {isOpened ? <SubListItemPerformances items={favoritePerformances} showStage /> : <View />}
@@ -109,6 +119,25 @@ class OwnScreen extends Component {
             onValueChange={val => this.updateUser('water', val)}
           />
         </View>
+        <TouchableOpacity style={styles.textContainer} onPress={this.handleModal}>
+          <Text style={[styles.text, styles.dangerText]}>Account verwijderen</Text>
+        </TouchableOpacity>
+        <CustomModal
+          onClose={this.handleModal}
+          visible={this.state.visible}
+          title="Wilt je jouw account definitief verwijderen?"
+        >
+          <View style={styles.centerContainer}>
+            <View style={styles.modalContainer}>
+              <TouchableOpacity onPress={this.handleModal}>
+                <Text style={[styles.buttonText, styles.dangerText]}>Ja</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.handleModal}>
+                <Text style={[styles.buttonText, styles.primaryText]}>Nee</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </CustomModal>
         {getFavoritePerformancesAction.performances ? (
           this.renderListItems(getFavoritePerformancesAction.performances)
         ) : (
@@ -147,6 +176,9 @@ const styles = StyleSheet.create({
   innerContainer: {
     alignItems: 'center',
   },
+  favoritePerformancesContainer: {
+    maxHeight: '10%',
+  },
   text: {
     color: Colors.black,
     fontFamily: 'LiberationSans-Regular',
@@ -160,6 +192,22 @@ const styles = StyleSheet.create({
   },
   firsTextContainer: {
     marginTop: '8%',
+  },
+  dangerText: {
+    color: Colors.danger,
+  },
+  centerContainer: { alignItems: 'center' },
+  modalContainer: {
+    width: '50%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  buttonText: {
+    fontFamily: 'LiberationSans-Regular',
+    fontSize: 20,
+  },
+  primaryText: {
+    color: Colors.black,
   },
 });
 
