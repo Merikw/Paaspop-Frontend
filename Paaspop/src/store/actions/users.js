@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { LocalStorageKeys } from '../../utilities/constants/constants';
 
-import { Post, Update } from '../api/serverRequests';
+import { Post, Update, Delete } from '../api/serverRequests';
 
 import {
   ADD_USER_IS_LOADING,
@@ -10,6 +10,9 @@ import {
   UPDATE_USER_IS_LOADING,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAIL,
+  REMOVE_USER_IS_LOADING,
+  REMOVE_USER_SUCCESS,
+  REMOVE_USER_FAIL,
 } from './actionTypes';
 
 export const addUser = user => {
@@ -90,6 +93,41 @@ export const updateUserSuccess = newUser => {
 export const updateUserFailure = error => {
   return {
     type: UPDATE_USER_FAIL,
+    payload: error,
+  };
+};
+
+export const removeUser = userId => {
+  return dispatch => {
+    dispatch(removeUserIsLoading(true));
+    Delete(`users/${userId}`)
+      .then(async result => {
+        if (result.status !== 200) {
+          throw Error(result.statusText);
+        }
+        await AsyncStorage.clear().then(() => dispatch(removeUserSuccess()));
+      })
+      .then(() => dispatch(removeUserSuccess()))
+      .catch(error => dispatch(removeUserFailure(error)));
+  };
+};
+
+export const removeUserIsLoading = bool => {
+  return {
+    type: REMOVE_USER_IS_LOADING,
+    payload: bool,
+  };
+};
+
+export const removeUserSuccess = () => {
+  return {
+    type: REMOVE_USER_SUCCESS,
+  };
+};
+
+export const removeUserFailure = error => {
+  return {
+    type: REMOVE_USER_FAIL,
     payload: error,
   };
 };
