@@ -17,6 +17,8 @@ class PerformancesScreen extends Component {
     openendStages: [],
     user: {},
     visible: false,
+    isOverlap: false,
+    overlappingArtists: [],
   };
 
   async componentDidMount() {
@@ -46,11 +48,72 @@ class PerformancesScreen extends Component {
       }));
   };
 
+  isOverlap = (firstPerformance, secondPerformance) => {
+    return (
+      firstPerformance.performanceTime.Day === secondPerformance.performanceTime.Day &&
+      (firstPerformance.performanceTime.startTime.localeCompare(
+        secondPerformance.performanceTime.startTime
+      ) == 0 ||
+        (firstPerformance.performanceTime.startTime.localeCompare(
+          secondPerformance.performanceTime.startTime
+        ) == 1 &&
+          firstPerformance.performanceTime.startTime.localeCompare(
+            secondPerformance.performanceTime.endTime
+          ) == -1) ||
+        (firstPerformance.performanceTime.startTime.localeCompare(
+          secondPerformance.performanceTime.startTime
+        ) == -1 &&
+          firstPerformance.performanceTime.endTime.localeCompare(
+            secondPerformance.performanceTime.startTime
+          ) == 1))
+    );
+  };
+
   updateFavorite = performanceId => {
+    const { user } = this.state;
+    const { getPerformancesAction } = this.props;
+    const favoritePerformances = user.favoritePerformances;
+    let foundPerformance;
+    const foundFavoritePerformance = favoritePerformances.find(p => p.id === performanceId);
+    const newOverlappingArtists = [];
+    if (!foundFavoritePerformance) {
+      for (let stage of getPerformancesAction.performancesViewModel.performances) {
+        foundPerformance = stage.value.find(p => p.id === performanceId);
+        if (foundPerformance !== undefined) {
+          newOverlappingArtists.push(foundPerformance);
+          this.setState(prevState => {
+            return {
+              ...prevState,
+              overlappingArtists: newOverlappingArtists,
+            };
+          });
+          break;
+        }
+      }
+      const { overlappingArtists } = this.state;
+      for (let performance of favoritePerformances) {
+        if (this.isOverlap(foundPerformance, performance)) {
+          newOverlappingArtists.push(performance);
+          this.setState(prevstate => {
+            return {
+              ...prevstate,
+              isOverlap: true,
+              overlappingArtists: newOverlappingArtists,
+            };
+          });
+        }
+      }
+      if (overlappingArtists.length <= 1) {
+        this.updateUserWithFavorite(performanceId, favoritePerformances, foundFavoritePerformance);
+      }
+    } else {
+      this.updateUserWithFavorite(performanceId, favoritePerformances, foundFavoritePerformance);
+    }
+  };
+
+  updateUserWithFavorite = (performanceId, favoritePerformances, foundPerformance) => {
     const { onUpdateUser, getPerformancesAction } = this.props;
     const { user } = this.state;
-    const favoritePerformances = user.favoritePerformances;
-    const foundPerformance = favoritePerformances.find(p => p.id === performanceId);
     let updateUser;
     if (!foundPerformance) {
       getPerformancesAction.performancesViewModel.performances.forEach(s => {
