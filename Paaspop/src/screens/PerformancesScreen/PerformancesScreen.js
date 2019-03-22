@@ -98,7 +98,7 @@ class PerformancesScreen extends Component {
 
   renderListItems = item => {
     const { getPerformancesAction } = this.props;
-    const { openendStages, user, visible } = this.state;
+    const { openendStages, user } = this.state;
     const isOpened = openendStages.indexOf(item.key) !== -1;
     return (
       <View key={item.key} style={styles.listItemContainer}>
@@ -116,25 +116,13 @@ class PerformancesScreen extends Component {
             <View />
           )}
         </ScrollView>
-        <CustomModal
-          onClose={this.handleModal}
-          visible={visible}
-          title="Als je minimaal 5 artiesten een like geeft kun je jouw suggesties zien!"
-        >
-          <View style={styles.centerContainer}>
-            <TouchableOpacity>
-              <Text onPress={this.handleModal} style={[styles.buttonText, styles.primaryText]}>
-                Okay
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </CustomModal>
       </View>
     );
   };
 
   render() {
     const { getPerformancesAction } = this.props;
+    const { visible } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.innerContainer}>
@@ -150,6 +138,19 @@ class PerformancesScreen extends Component {
         ) : (
           <View />
         )}
+        <CustomModal
+          onClose={this.handleModal}
+          visible={visible}
+          title="Als je minimaal 5 artiesten een like geeft kun je jouw suggesties zien!"
+        >
+          <View style={styles.centerContainer}>
+            <TouchableOpacity>
+              <Text onPress={this.handleModal} style={[styles.buttonText, styles.primaryText]}>
+                Okay
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </CustomModal>
       </View>
     );
   }
