@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Loader from '../../components/loader/Loader';
+import CustomModal from '../../components/modal/Modal';
 import { getPerformances } from '../../store/actions/performances';
 import { updateUser } from '../../store/actions/users';
-import { Styles } from '../../assets/GeneralStyle';
+import { Styles, Colors } from '../../assets/GeneralStyle';
 import ListItem from '../../components/listItem/ListItem';
 import SubListItemPerformances from '../../components/listItem/SubListItemPerformances';
 import getUser from '../../utilities/getUser/getUser';
@@ -15,18 +16,20 @@ class PerformancesScreen extends Component {
   state = {
     openendStages: [],
     user: {},
+    visible: false,
   };
 
   async componentDidMount() {
     const { onGetPerformances, navigation } = this.props;
-    onGetPerformances();
-    navigation.addListener('willFocus', () => {
-      onGetPerformances();
-    });
     const response = await getUser();
     if (response) {
       this.setState({
         user: response,
+      });
+      onGetPerformances(response.id);
+      this.openModal();
+      navigation.addListener('willFocus', () => {
+        onGetPerformances(response.id);
       });
     }
   }
@@ -50,7 +53,7 @@ class PerformancesScreen extends Component {
     const foundPerformance = favoritePerformances.find(p => p.id === performanceId);
     let updateUser;
     if (!foundPerformance) {
-      getPerformancesAction.performances.forEach(s => {
+      getPerformancesAction.performancesViewModel.performances.forEach(s => {
         let performance = s.value.find(p => p.id === performanceId);
         if (performance) {
           favoritePerformances.push(performance);
@@ -76,8 +79,26 @@ class PerformancesScreen extends Component {
     });
   };
 
+  openModal = () => {
+    const { user } = this.state;
+    if (user.favoritePerformances.length < 10) {
+      this.setState({
+        visible: true,
+      });
+    }
+  };
+
+  handleModal = () => {
+    this.setState(prevState => {
+      return {
+        visible: !prevState.visible,
+      };
+    });
+  };
+
   renderListItems = item => {
-    const { openendStages, user } = this.state;
+    const { getPerformancesAction } = this.props;
+    const { openendStages, user, visible } = this.state;
     const isOpened = openendStages.indexOf(item.key) !== -1;
     return (
       <View key={item.key} style={styles.listItemContainer}>
@@ -87,6 +108,7 @@ class PerformancesScreen extends Component {
             <SubListItemPerformances
               items={item.value}
               favoritePerformances={user.favoritePerformances}
+              suggestions={getPerformancesAction.performancesViewModel.suggestionPerformances}
               onPressIcon={this.updateFavorite}
               favoriteIcon
             />
@@ -94,6 +116,19 @@ class PerformancesScreen extends Component {
             <View />
           )}
         </ScrollView>
+        <CustomModal
+          onClose={this.handleModal}
+          visible={visible}
+          title="Als je minimaal 5 artiesten een like geeft kun je jouw suggesties zien!"
+        >
+          <View style={styles.centerContainer}>
+            <TouchableOpacity>
+              <Text onPress={this.handleModal} style={[styles.buttonText, styles.primaryText]}>
+                Okay
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </CustomModal>
       </View>
     );
   };
@@ -108,8 +143,8 @@ class PerformancesScreen extends Component {
           />
           <Text style={Styles.mainText}>Stages</Text>
         </View>
-        {getPerformancesAction.performances ? (
-          getPerformancesAction.performances.map(item => {
+        {getPerformancesAction.performancesViewModel ? (
+          getPerformancesAction.performancesViewModel.performances.map(item => {
             return this.renderListItems(item);
           })
         ) : (
@@ -152,6 +187,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingBottom: 15,
   },
+  centerContainer: { alignItems: 'center' },
+  buttonText: {
+    fontFamily: 'LiberationSans-Regular',
+    fontSize: 20,
+  },
+  primaryText: {
+    color: Colors.primary,
+  },
 });
 
 const mapStateToProps = state => {
@@ -162,7 +205,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGetPerformances: () => dispatch(getPerformances()),
+    onGetPerformances: userId => dispatch(getPerformances(userId)),
     onUpdateUser: user => dispatch(updateUser(user)),
   };
 };

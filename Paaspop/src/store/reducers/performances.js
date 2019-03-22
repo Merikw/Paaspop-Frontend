@@ -9,7 +9,10 @@ import {
 
 const initialState = {
   getPerformancesAction: {
-    performances: [],
+    performancesViewModel: {
+      performances: [],
+      suggestionPerformances: [],
+    },
     error: false,
     loading: false,
     succes: false,
@@ -28,7 +31,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         getPerformancesAction: {
-          performances: null,
+          performancesViewModel: null,
           loading: action.payload,
           error: false,
           succes: false,
@@ -38,7 +41,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         getPerformancesAction: {
-          performances: action.payload.performances,
+          performancesViewModel: action.payload,
           loading: false,
           error: false,
           succes: true,
@@ -48,7 +51,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         getPerformancesAction: {
-          performances: null,
+          performancesViewModel: null,
           loading: false,
           error: action.payload,
           succes: false,
