@@ -9,17 +9,17 @@ import {
   GET_FAVORITE_PERFORMANCES_FAIL,
 } from './actionTypes';
 
-export const getPerformances = () => {
+export const getPerformances = userId => {
   return dispatch => {
     dispatch(getPerformancesIsLoading(true));
-    Get('performances')
+    Get(`performances/${userId}`)
       .then(result => {
         if (result.status !== 200) {
           throw Error(result.statusText);
         }
         return result.data;
       })
-      .then(performances => dispatch(getPerformancesSuccess(performances)))
+      .then(performancesViewModel => dispatch(getPerformancesSuccess(performancesViewModel)))
       .catch(() => dispatch(getPerformancesFailure(true)));
   };
 };
@@ -31,10 +31,10 @@ export const getPerformancesIsLoading = bool => {
   };
 };
 
-export const getPerformancesSuccess = performances => {
+export const getPerformancesSuccess = performancesViewModel => {
   return {
     type: GET_PERFORMANCES_SUCCESS,
-    payload: performances,
+    payload: performancesViewModel,
   };
 };
 

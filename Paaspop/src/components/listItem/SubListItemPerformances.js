@@ -12,7 +12,7 @@ class SubListItem extends Component {
   };
 
   render() {
-    const { items, favoritePerformances, favoriteIcon, showStage } = this.props;
+    const { items, favoritePerformances, favoriteIcon, showStage, suggestions } = this.props;
     return (
       <View>
         {items.map(performance => {
@@ -34,8 +34,12 @@ class SubListItem extends Component {
                 <Text style={styles.listItemText}>{performance.artist.name}</Text>
                 <Text style={styles.listItemSubText}>{`${date} (${
                   performance.performanceTime.startTime
-                } - ${performance.performanceTime.endTime}) - ${
-                  showStage ? performance.stage.name : ''
+                } - ${performance.performanceTime.endTime}) ${
+                  showStage ? `- ${performance.stage.name}` : ''
+                } ${
+                  suggestions.findIndex(p => p.id === performance.id) !== -1
+                    ? `- Voorgesteld voor jou!`
+                    : ''
                 }`}</Text>
               </TouchableOpacity>
               <View style={styles.iconsContainer}>
@@ -76,12 +80,16 @@ SubListItem.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
   favoritePerformances: PropTypes.arrayOf(PropTypes.object),
   favoriteIcon: PropTypes.bool,
+  showStage: PropTypes.bool,
+  suggestions: PropTypes.arrayOf(PropTypes.object),
 };
 
 SubListItem.defaultProps = {
   items: [{}],
   favoritePerformances: [{}],
   favoriteIcon: false,
+  showStage: false,
+  suggestions: [{}],
 };
 
 const styles = StyleSheet.create({
