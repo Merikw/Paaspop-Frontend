@@ -105,8 +105,8 @@ android {
         applicationId "com.paaspop"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 16
-        versionName "0.4.2"
+        versionCode 18
+        versionName "0.4.4"
     }
     splits {
         abi {
