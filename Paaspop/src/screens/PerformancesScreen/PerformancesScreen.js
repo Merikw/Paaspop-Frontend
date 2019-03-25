@@ -19,6 +19,9 @@ class PerformancesScreen extends Component {
     visible: false,
     isOverlap: false,
     overlappingArtists: [],
+    artistToNotBeFavorited: {},
+    chosenArtist: {},
+    chosenArtistVisible: false,
   };
 
   async componentDidMount() {
@@ -90,7 +93,6 @@ class PerformancesScreen extends Component {
           break;
         }
       }
-      const { overlappingArtists } = this.state;
       for (let performance of favoritePerformances) {
         if (this.isOverlap(foundPerformance, performance)) {
           newOverlappingArtists.push(performance);
@@ -103,7 +105,7 @@ class PerformancesScreen extends Component {
           });
         }
       }
-      if (overlappingArtists.length <= 1) {
+      if (newOverlappingArtists.length <= 1) {
         this.updateUserWithFavorite(performanceId, favoritePerformances, foundFavoritePerformance);
       }
     } else {
@@ -111,10 +113,21 @@ class PerformancesScreen extends Component {
     }
   };
 
-  updateUserWithFavorite = (performanceId, favoritePerformances, foundPerformance) => {
+  updateUserWithFavorite = (
+    performanceId,
+    favoritePerformances,
+    foundPerformance,
+    performanceToNotBeFavorited = undefined
+  ) => {
     const { onUpdateUser, getPerformancesAction } = this.props;
     const { user } = this.state;
     let updateUser;
+    if (performanceToNotBeFavorited !== undefined) {
+      const index = favoritePerformances.findIndex(p => p.id === performanceToNotBeFavorited.id);
+      if (index >= 0) {
+        favoritePerformances.splice(index, 1);
+      }
+    }
     if (!foundPerformance) {
       getPerformancesAction.performancesViewModel.performances.forEach(s => {
         let performance = s.value.find(p => p.id === performanceId);
@@ -159,6 +172,51 @@ class PerformancesScreen extends Component {
     });
   };
 
+  handleModalChosenArtist = () => {
+    this.setState(prevState => {
+      return {
+        chosenArtistVisible: !prevState.chosenArtistVisible,
+      };
+    });
+  };
+
+  handleModalOverlap = buttonClicked => () => {
+    const { overlappingArtists, user } = this.state;
+    if (buttonClicked === 'yes') {
+      const chosenPerformance =
+        overlappingArtists[0].interestPercentage.absolutePercentage >
+        overlappingArtists[1].interestPercentage.absolutePercentage
+          ? overlappingArtists[0]
+          : overlappingArtists[1];
+
+      const artistToNotBeFavorited =
+        chosenPerformance.id === overlappingArtists[0].id
+          ? overlappingArtists[1]
+          : overlappingArtists[0];
+      this.setState({
+        artistToNotBeFavorited: artistToNotBeFavorited,
+        chosenArtist: chosenPerformance.artist,
+        chosenArtistVisible: true,
+      });
+
+      if (!user.favoritePerformances.find(p => p.id === chosenPerformance.id)) {
+        this.updateUserWithFavorite(
+          chosenPerformance.id,
+          user.favoritePerformances,
+          undefined,
+          artistToNotBeFavorited
+        );
+      }
+    } else {
+      this.updateUserWithFavorite(overlappingArtists[0].id, user.favoritePerformances, undefined);
+    }
+    this.setState(prevState => {
+      return {
+        isOverlap: !prevState.isOverlap,
+      };
+    });
+  };
+
   renderListItems = item => {
     const { getPerformancesAction } = this.props;
     const { openendStages, user } = this.state;
@@ -185,7 +243,7 @@ class PerformancesScreen extends Component {
 
   render() {
     const { getPerformancesAction } = this.props;
-    const { visible } = this.state;
+    const { visible, isOverlap, chosenArtist, chosenArtistVisible } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.innerContainer}>
@@ -202,6 +260,22 @@ class PerformancesScreen extends Component {
           <View />
         )}
         <CustomModal
+          onClose={this.handleModalChosenArtist}
+          visible={chosenArtistVisible}
+          title={`${chosenArtist.name} is voor jou gekozen!`}
+        >
+          <View style={styles.centerContainer}>
+            <TouchableOpacity>
+              <Text
+                onPress={this.handleModalChosenArtist}
+                style={[styles.buttonText, styles.primaryText]}
+              >
+                Okay
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </CustomModal>
+        <CustomModal
           onClose={this.handleModal}
           visible={visible}
           title="Als je minimaal 5 artiesten een like geeft kun je jouw suggesties zien!"
@@ -212,6 +286,32 @@ class PerformancesScreen extends Component {
                 Okay
               </Text>
             </TouchableOpacity>
+          </View>
+        </CustomModal>
+        <CustomModal
+          onClose={this.handleModalOverlap}
+          visible={isOverlap}
+          title="Artiesten die je leuk vindt hebben overlap, wil je de app de keuze laten maken waar je heen moet?"
+        >
+          <View style={styles.centerContainer}>
+            <View style={styles.modalContainer}>
+              <TouchableOpacity>
+                <Text
+                  onPress={this.handleModalOverlap('yes')}
+                  style={[styles.buttonText, styles.primaryText]}
+                >
+                  Ja
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text
+                  onPress={this.handleModalOverlap('no')}
+                  style={[styles.buttonText, styles.primaryText]}
+                >
+                  Nee
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </CustomModal>
       </View>
@@ -252,6 +352,11 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   centerContainer: { alignItems: 'center' },
+  modalContainer: {
+    width: '50%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   buttonText: {
     fontFamily: 'LiberationSans-Regular',
     fontSize: 20,
