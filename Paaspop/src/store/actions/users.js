@@ -13,6 +13,7 @@ import {
   REMOVE_USER_IS_LOADING,
   REMOVE_USER_SUCCESS,
   REMOVE_USER_FAIL,
+  CLEAR_ALL,
 } from './actionTypes';
 
 export const addUser = user => {
@@ -108,6 +109,7 @@ export const removeUser = userId => {
         await AsyncStorage.clear().then(() => dispatch(removeUserSuccess()));
       })
       .then(() => dispatch(removeUserSuccess()))
+      .then(() => dispatch(clearAll()))
       .catch(error => dispatch(removeUserFailure(error)));
   };
 };
@@ -116,6 +118,12 @@ export const removeUserIsLoading = bool => {
   return {
     type: REMOVE_USER_IS_LOADING,
     payload: bool,
+  };
+};
+
+export const clearAll = () => {
+  return {
+    type: CLEAR_ALL,
   };
 };
 

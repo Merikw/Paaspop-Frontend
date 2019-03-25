@@ -5,6 +5,7 @@ import {
   GET_FAVORITE_PERFORMANCES_IS_LOADING,
   GET_FAVORITE_PERFORMANCES_SUCCESS,
   GET_FAVORITE_PERFORMANCES_FAIL,
+  CLEAR_ALL,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -27,6 +28,10 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAR_ALL:
+      return {
+        state: initialState,
+      };
     case GET_PERFORMANCES_IS_LOADING:
       return {
         ...state,

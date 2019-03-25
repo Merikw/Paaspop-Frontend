@@ -2,6 +2,7 @@ import {
   GET_BESTPLACES_FAIL,
   GET_BESTPLACES_IS_LOADING,
   GET_BESTPLACES_SUCCESS,
+  CLEAR_ALL,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -18,6 +19,10 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAR_ALL:
+      return {
+        state: initialState,
+      };
     case GET_BESTPLACES_IS_LOADING:
       return {
         ...state,

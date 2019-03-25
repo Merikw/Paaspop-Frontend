@@ -8,6 +8,7 @@ import {
   REMOVE_USER_IS_LOADING,
   REMOVE_USER_SUCCESS,
   REMOVE_USER_FAIL,
+  CLEAR_ALL,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -33,6 +34,10 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAR_ALL:
+      return {
+        state: initialState,
+      };
     case ADD_USER_IS_LOADING:
       return {
         ...state,
