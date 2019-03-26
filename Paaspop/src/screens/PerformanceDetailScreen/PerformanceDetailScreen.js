@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingRight: '2%',
     marginTop: '5%',
-    height: '1.75%',
+    height: '3%',
     alignItems: 'center',
   },
   InterestText: {
