@@ -15,6 +15,7 @@ const UpdateLocationTask = (updateUserFunc, navigator) => {
               latitude: JSON.stringify(position.coords.latitude),
               longitude: JSON.stringify(position.coords.longitude),
             },
+            userUpdateType: 0,
           };
           updateUserFunc(newLocationUser);
         }

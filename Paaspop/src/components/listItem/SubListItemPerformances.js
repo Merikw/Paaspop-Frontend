@@ -11,6 +11,11 @@ class SubListItem extends Component {
     onPressIcon(id);
   };
 
+  onPressPerformance = performance => () => {
+    const { onPressPerformance } = this.props;
+    onPressPerformance(performance);
+  };
+
   render() {
     const { items, favoritePerformances, favoriteIcon, showStage, suggestions } = this.props;
     return (
@@ -30,7 +35,7 @@ class SubListItem extends Component {
           }
           return (
             <View key={performance.id} style={styles.listItem}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={this.onPressPerformance(performance)}>
                 <Text style={styles.listItemText}>{performance.artist.name}</Text>
                 <Text style={styles.listItemSubText}>{`${date} (${
                   performance.performanceTime.startTime
@@ -62,7 +67,7 @@ class SubListItem extends Component {
                       <View />
                     )}
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={this.onPressPerformance(performance)}>
                     <Icon name="ios-arrow-forward" size={20} color="#CACACA" />
                   </TouchableOpacity>
                 </View>
@@ -77,6 +82,7 @@ class SubListItem extends Component {
 
 SubListItem.propTypes = {
   onPressIcon: PropTypes.func.isRequired,
+  onPressPerformance: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   favoritePerformances: PropTypes.arrayOf(PropTypes.object),
   favoriteIcon: PropTypes.bool,

@@ -7,6 +7,9 @@ import {
   GET_FAVORITE_PERFORMANCES_IS_LOADING,
   GET_FAVORITE_PERFORMANCES_SUCCESS,
   GET_FAVORITE_PERFORMANCES_FAIL,
+  GET_PERFORMANCE_BY_ID_IS_LOADING,
+  GET_PERFORMANCE_BY_ID_SUCCESS,
+  GET_PERFORMANCE_BY_ID_FAIL,
 } from './actionTypes';
 
 export const getPerformances = userId => {
@@ -41,6 +44,42 @@ export const getPerformancesSuccess = performancesViewModel => {
 export const getPerformancesFailure = error => {
   return {
     type: GET_PERFORMANCES_FAIL,
+    payload: error,
+  };
+};
+
+export const getPerformanceById = performanceId => {
+  return dispatch => {
+    dispatch(getPerformanceByIdIsLoading(true));
+    Get(`performances/byid/${performanceId}`)
+      .then(result => {
+        if (result.status !== 200) {
+          throw Error(result.statusText);
+        }
+        return result.data;
+      })
+      .then(performancesViewModel => dispatch(getPerformanceByIdSuccess(performancesViewModel)))
+      .catch(() => dispatch(getPerformanceByIdFailure(true)));
+  };
+};
+
+export const getPerformanceByIdIsLoading = bool => {
+  return {
+    type: GET_PERFORMANCE_BY_ID_IS_LOADING,
+    payload: bool,
+  };
+};
+
+export const getPerformanceByIdSuccess = performancesViewModel => {
+  return {
+    type: GET_PERFORMANCE_BY_ID_SUCCESS,
+    payload: performancesViewModel,
+  };
+};
+
+export const getPerformanceByIdFailure = error => {
+  return {
+    type: GET_PERFORMANCE_BY_ID_FAIL,
     payload: error,
   };
 };
