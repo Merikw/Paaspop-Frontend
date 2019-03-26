@@ -17,6 +17,7 @@ const Header = {
       <Image source={Logo} style={ImageStyle} />
     </View>
   ),
+  headerLeft: null,
   headerStyle: {
     backgroundColor: Colors.primary,
   },

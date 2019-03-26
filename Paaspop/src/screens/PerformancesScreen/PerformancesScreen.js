@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 
 import Loader from '../../components/loader/Loader';
 import CustomModal from '../../components/modal/Modal';
-import { getPerformances } from '../../store/actions/performances';
+import { getPerformances, getFavoritePerformances } from '../../store/actions/performances';
 import { updateUser } from '../../store/actions/users';
 import { Styles, Colors } from '../../assets/GeneralStyle';
 import ListItem from '../../components/listItem/ListItem';
 import SubListItemPerformances from '../../components/listItem/SubListItemPerformances';
 import getUser from '../../utilities/getUser/getUser';
+
+let userFavorites = [];
 
 class PerformancesScreen extends Component {
   state = {
@@ -25,17 +27,26 @@ class PerformancesScreen extends Component {
   };
 
   async componentDidMount() {
-    const { onGetPerformances, navigation } = this.props;
+    const { onGetPerformances, navigation, onGetFavoritePerformances } = this.props;
     const response = await getUser();
     if (response) {
       this.setState({
         user: response,
       });
       onGetPerformances(response.id);
+      onGetFavoritePerformances(response.id);
       this.openModal();
       navigation.addListener('willFocus', () => {
+        onGetFavoritePerformances(response.id);
         onGetPerformances(response.id);
       });
+    }
+  }
+
+  componentDidUpdate() {
+    const { getFavoritePerformancesAction } = this.props;
+    if (getFavoritePerformancesAction.succes) {
+      userFavorites = getFavoritePerformancesAction.performances;
     }
   }
 
@@ -73,9 +84,8 @@ class PerformancesScreen extends Component {
   };
 
   updateFavorite = performanceId => {
-    const { user } = this.state;
     const { getPerformancesAction } = this.props;
-    const favoritePerformances = user.favoritePerformances;
+    const favoritePerformances = userFavorites;
     let foundPerformance;
     const foundFavoritePerformance = favoritePerformances.find(p => p.id === performanceId);
     const newOverlappingArtists = [];
@@ -137,6 +147,7 @@ class PerformancesScreen extends Component {
       });
       updateUser = {
         ...user,
+        userUpdateType: 1,
         favoritePerformances: favoritePerformances,
       };
     } else {
@@ -144,11 +155,12 @@ class PerformancesScreen extends Component {
       favoritePerformances.splice(index, 1);
       updateUser = {
         ...user,
+        userUpdateType: 1,
         favoritePerformances: favoritePerformances,
       };
     }
 
-    onUpdateUser(user);
+    onUpdateUser(updateUser);
 
     this.setState({
       user: updateUser,
@@ -156,8 +168,7 @@ class PerformancesScreen extends Component {
   };
 
   openModal = () => {
-    const { user } = this.state;
-    if (user.favoritePerformances.length < 10) {
+    if (userFavorites.length < 10) {
       this.setState({
         visible: true,
       });
@@ -180,11 +191,16 @@ class PerformancesScreen extends Component {
     });
   };
 
+  pressPerformance = performance => {
+    const { navigation } = this.props;
+    navigation.navigate('PerformanceDetail', { performance: performance });
+  };
+
   handleModalOverlap = buttonClicked => () => {
-    const { overlappingArtists, user } = this.state;
+    const { overlappingArtists } = this.state;
     if (buttonClicked === 'yes') {
       const chosenPerformance =
-        overlappingArtists[0].interestPercentage.absolutePercentage >
+        overlappingArtists[0].interestPercentage.absolutePercentage <
         overlappingArtists[1].interestPercentage.absolutePercentage
           ? overlappingArtists[0]
           : overlappingArtists[1];
@@ -199,16 +215,16 @@ class PerformancesScreen extends Component {
         chosenArtistVisible: true,
       });
 
-      if (!user.favoritePerformances.find(p => p.id === chosenPerformance.id)) {
+      if (!userFavorites.find(p => p.id === chosenPerformance.id)) {
         this.updateUserWithFavorite(
           chosenPerformance.id,
-          user.favoritePerformances,
+          userFavorites,
           undefined,
           artistToNotBeFavorited
         );
       }
     } else {
-      this.updateUserWithFavorite(overlappingArtists[0].id, user.favoritePerformances, undefined);
+      this.updateUserWithFavorite(overlappingArtists[0].id, userFavorites, undefined);
     }
     this.setState(prevState => {
       return {
@@ -219,7 +235,7 @@ class PerformancesScreen extends Component {
 
   renderListItems = item => {
     const { getPerformancesAction } = this.props;
-    const { openendStages, user } = this.state;
+    const { openendStages } = this.state;
     const isOpened = openendStages.indexOf(item.key) !== -1;
     return (
       <View key={item.key} style={styles.listItemContainer}>
@@ -228,10 +244,11 @@ class PerformancesScreen extends Component {
           {isOpened ? (
             <SubListItemPerformances
               items={item.value}
-              favoritePerformances={user.favoritePerformances}
+              favoritePerformances={userFavorites}
               suggestions={getPerformancesAction.performancesViewModel.suggestionPerformances}
               onPressIcon={this.updateFavorite}
               favoriteIcon
+              onPressPerformance={this.pressPerformance}
             />
           ) : (
             <View />
@@ -322,7 +339,14 @@ class PerformancesScreen extends Component {
 PerformancesScreen.propTypes = {
   onGetPerformances: PropTypes.func.isRequired,
   onUpdateUser: PropTypes.func.isRequired,
+  onGetFavoritePerformances: PropTypes.func.isRequired,
   getPerformancesAction: PropTypes.shape(
+    PropTypes.objectOf,
+    PropTypes.bool,
+    PropTypes.bool,
+    PropTypes.bool
+  ),
+  getFavoritePerformancesAction: PropTypes.shape(
     PropTypes.objectOf,
     PropTypes.bool,
     PropTypes.bool,
@@ -334,6 +358,7 @@ PerformancesScreen.propTypes = {
 };
 
 PerformancesScreen.defaultProps = {
+  getFavoritePerformancesAction: { performances: [], error: false, loading: false, succes: false },
   getPerformancesAction: { performances: [], error: false, loading: false, succes: false },
 };
 
@@ -369,11 +394,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     getPerformancesAction: state.performancesStore.getPerformancesAction,
+    getFavoritePerformancesAction: state.performancesStore.getFavoritePerformancesAction,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    onGetFavoritePerformances: userId => dispatch(getFavoritePerformances(userId)),
     onGetPerformances: userId => dispatch(getPerformances(userId)),
     onUpdateUser: user => dispatch(updateUser(user)),
   };

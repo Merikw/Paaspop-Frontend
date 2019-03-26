@@ -88,13 +88,26 @@ class OwnScreen extends Component {
     });
   };
 
+  pressPerformance = performance => {
+    const { navigation } = this.props;
+    navigation.navigate('PerformanceDetail', { performance: performance });
+  };
+
   renderListItems = favoritePerformances => {
     const { isOpened } = this.state;
     return (
       <View stlye={styles.favoritePerformancesContainer}>
         <ListItem name="Mijn rooster" onOpen={this.onOpenStageHandler} opened={isOpened} />
         <ScrollView>
-          {isOpened ? <SubListItemPerformances items={favoritePerformances} showStage /> : <View />}
+          {isOpened ? (
+            <SubListItemPerformances
+              items={favoritePerformances}
+              onPressPerformance={this.pressPerformance}
+              showStage
+            />
+          ) : (
+            <View />
+          )}
         </ScrollView>
       </View>
     );

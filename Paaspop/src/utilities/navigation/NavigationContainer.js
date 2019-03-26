@@ -13,6 +13,7 @@ import MapScreen from '../../screens/MapScreen/MapScreen';
 import PerformancesScreen from '../../screens/PerformancesScreen/PerformancesScreen';
 import PlacesScreen from '../../screens/PlacesScreen/PlacesScreen';
 import OwnScreen from '../../screens/OwnScreen/OwnScreen';
+import PerformanceDetailScreen from '../../screens/PerformanceDetailScreen/PerformanceDetailScreen';
 
 import Header from '../../components/header/Header';
 import { Colors } from '../../assets/GeneralStyle';
@@ -74,6 +75,10 @@ const AppNavigator = createStackNavigator({
         },
       }
     ),
+    navigationOptions: Header,
+  },
+  PerformanceDetail: {
+    screen: PerformanceDetailScreen,
     navigationOptions: Header,
   },
 });
