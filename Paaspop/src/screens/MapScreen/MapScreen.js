@@ -1,45 +1,64 @@
 import React, { Component } from 'react';
-/* eslint react/prefer-stateless-function: 0 */
-
-import { View, Image, StyleSheet, Dimensions } from 'react-native';
-import ImageZoom from 'react-native-image-pan-zoom';
-import Floorplan from '../../assets/images/floorplan.png';
+import PropTypes from 'prop-types';
+import { View, StyleSheet } from 'react-native';
+import MapView, { PROVIDER_GOOGLE, Overlay } from 'react-native-maps';
+import Floorplan from '../../assets/images/floorplan.jpg';
 
 class MapScreen extends Component {
+  componentDidMount() {
+    const { navigation } = this.props;
+
+    this.mapRef.setMapBoundaries(
+      { latitude: 51.642318, longitude: 5.4172 },
+      { latitude: 51.643618, longitude: 5.4177 }
+    );
+
+    navigation.addListener('willFocus', () => {
+      this.setState({
+        forceRefresh: Math.floor(Math.random() * 100),
+      });
+    });
+  }
+
   render() {
     return (
       <View style={styles.floorPlanContainer}>
-        <ImageZoom
-          style={styles.floorPlanImageZoom}
-          cropWidth={Dimensions.get('window').width}
-          cropHeight={Dimensions.get('window').height}
-          imageHeight={Dimensions.get('window').height}
-          imageWidth={Dimensions.get('window').width}
-          centerOn={{ x: 10, y: 0, scale: 2, duration: 5 }}
+        <MapView
+          ref={ref => (this.mapRef = ref)}
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          region={{
+            latitude: 51.642618,
+            longitude: 5.4175,
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.003,
+          }}
+          minZoomLevel={17.3}
+          showsUserLocation
+          mapType="none"
         >
-          <Image source={Floorplan} style={styles.floorPlan} />
-        </ImageZoom>
+          <Overlay image={Floorplan} bounds={[[51.644861, 5.415408], [51.64074, 5.419571]]} />
+        </MapView>
       </View>
     );
   }
 }
 
+MapScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
 const styles = StyleSheet.create({
   floorPlanContainer: {
     flex: 1,
-    flexDirection: 'row',
+    ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
+    alignItems: 'center',
   },
-  floorPlan: {
-    flex: 1,
-    height: 'auto',
-    width: '100%',
-    resizeMode: 'contain',
-  },
-  floorPlanImageZoom: {
-    flex: 1,
-    height: '100%',
-    width: '100%',
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
 });
 
