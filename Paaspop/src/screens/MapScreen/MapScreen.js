@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
 /* eslint react/prefer-stateless-function: 0 */
 
-import { View, Image, StyleSheet, Dimensions } from 'react-native';
-import ImageZoom from 'react-native-image-pan-zoom';
-import Floorplan from '../../assets/images/floorplan.png';
+import { View, StyleSheet } from 'react-native';
+import MapView, { PROVIDER_GOOGLE, Overlay } from 'react-native-maps';
+import Floorplan from '../../assets/images/floorplan.jpg';
 
 class MapScreen extends Component {
   render() {
     return (
       <View style={styles.floorPlanContainer}>
-        <ImageZoom
-          style={styles.floorPlanImageZoom}
-          cropWidth={Dimensions.get('window').width}
-          cropHeight={Dimensions.get('window').height}
-          imageHeight={Dimensions.get('window').height}
-          imageWidth={Dimensions.get('window').width}
-          centerOn={{ x: 10, y: 0, scale: 2, duration: 5 }}
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          region={{
+            latitude: 51.642618,
+            longitude: 5.4175,
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.003,
+          }}
+          showsUserLocation
+          mapType="none"
+          showsCompass={false}
         >
-          <Image source={Floorplan} style={styles.floorPlan} />
-        </ImageZoom>
+          <Overlay image={Floorplan} bounds={[[51.644861, 5.415408], [51.64074, 5.419571]]} />
+        </MapView>
       </View>
     );
   }
@@ -27,19 +32,12 @@ class MapScreen extends Component {
 const styles = StyleSheet.create({
   floorPlanContainer: {
     flex: 1,
-    flexDirection: 'row',
+    ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
+    alignItems: 'center',
   },
-  floorPlan: {
-    flex: 1,
-    height: 'auto',
-    width: '100%',
-    resizeMode: 'contain',
-  },
-  floorPlanImageZoom: {
-    flex: 1,
-    height: '100%',
-    width: '100%',
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
 });
 

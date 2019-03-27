@@ -2,6 +2,7 @@ package com.paaspop;
 
 import android.app.Application;
 
+import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
 import com.ocetnik.timer.BackgroundTimerPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
@@ -30,7 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
             new BackgroundTimerPackage(),
             new ReactNativeConfigPackage(),
             new VectorIconsPackage(),
-            new RNGestureHandlerPackage()
+            new RNGestureHandlerPackage(),
+            new MapsPackage()
       );
     }
 
