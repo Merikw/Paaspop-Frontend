@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-/* eslint react/prefer-stateless-function: 0 */
-
+import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Overlay } from 'react-native-maps';
 import Floorplan from '../../assets/images/floorplan.jpg';
@@ -44,6 +43,12 @@ class MapScreen extends Component {
     );
   }
 }
+
+MapScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 const styles = StyleSheet.create({
   floorPlanContainer: {
