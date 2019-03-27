@@ -34,6 +34,7 @@ class MapScreen extends Component {
             longitudeDelta: 0.003,
           }}
           minZoomLevel={17.3}
+          showsMyLocationButton={false}
           showsUserLocation
           mapType="none"
         >
