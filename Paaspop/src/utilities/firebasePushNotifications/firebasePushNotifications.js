@@ -8,9 +8,9 @@ const getToken = async () => {
     .hasPermission()
     .then(async enabled => {
       if (enabled) {
-        await AsyncStorage.getItem(LocalStorageKeys.User.Key).then(value => {
+        alert('komt die hier?');
+        AsyncStorage.getItem(LocalStorageKeys.FCM.Token).then(value => {
           if (!value) {
-            alert('VALuE: ' + value);
             messaging
               .getToken()
               .then(async token => {
@@ -22,6 +22,8 @@ const getToken = async () => {
                 alert('Er is een fout opgetreden, je zult geen push berichten ontvangen!');
                 return false;
               });
+          } else {
+            return true;
           }
         });
       } else {
