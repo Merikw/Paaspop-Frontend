@@ -1,14 +1,29 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Alert } from 'react-native';
 import firebase from 'react-native-firebase';
 import { LocalStorageKeys } from '../constants/constants';
 
-const getToken = async () => {
+const setNotificationListener = () => {
+  this.notificationListener = firebase.notifications().onNotification(notification => {
+    Alert.alert(notification.title, notification.body, [{ text: 'OK' }], { cancelable: false });
+  });
+
+  const channel = new firebase.notifications.Android.Channel(
+    'default',
+    'Default Channel',
+    firebase.notifications.Android.Importance.Max
+  ).setDescription('The default notification channel.');
+
+  firebase.notifications().android.createChannel(channel);
+};
+
+const setFirebase = async () => {
   const messaging = firebase.messaging();
+
   messaging
     .hasPermission()
     .then(async enabled => {
       if (enabled) {
-        alert('komt die hier?');
+        setNotificationListener();
         AsyncStorage.getItem(LocalStorageKeys.FCM.Token).then(value => {
           if (!value) {
             messaging
@@ -30,7 +45,7 @@ const getToken = async () => {
         messaging
           .requestPermission()
           .then(() => {
-            getToken();
+            setFirebase();
           })
           .catch(() => {
             alert('Er is een fout opgetreden, je zult geen push berichten ontvangen!');
@@ -43,4 +58,4 @@ const getToken = async () => {
     });
 };
 
-export default getToken;
+export default setFirebase;

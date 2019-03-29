@@ -17,7 +17,7 @@ import Logo from '../../assets/images/paaspoplogo.png';
 
 import UpdateLocationTask from '../../utilities/tasks/UpdateLocationTask';
 import { updateUser } from '../../store/actions/users';
-import getToken from '../../utilities/firebasePushNotifications/firebasePushNotifications';
+import setFirebase from '../../utilities/firebasePushNotifications/firebasePushNotifications';
 
 YellowBox.ignoreWarnings(['Require cycle:']);
 
@@ -25,7 +25,7 @@ class SplashScreen extends Component {
   async componentDidMount() {
     let granted;
     if (Platform.OS === 'android') {
-      await getToken();
+      await setFirebase();
       granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {

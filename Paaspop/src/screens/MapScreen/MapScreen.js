@@ -2,11 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Overlay } from 'react-native-maps';
+import firebase from 'react-native-firebase';
 import Floorplan from '../../assets/images/floorplan.jpg';
 
 class MapScreen extends Component {
   componentDidMount() {
     const { navigation } = this.props;
+
+    firebase.messaging().onMessage(data => {
+      alert('here');
+      alert(JSON.stringify(data));
+    });
 
     this.mapRef.setMapBoundaries(
       { latitude: 51.642318, longitude: 5.4172 },
