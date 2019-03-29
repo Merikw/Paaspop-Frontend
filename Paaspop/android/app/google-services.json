@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "32992616639",
+    "firebase_url": "https://paaspop-push-notifications.firebaseio.com",
+    "project_id": "paaspop-push-notifications",
+    "storage_bucket": "paaspop-push-notifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32992616639:android:76c53a3c5131768e",
+        "android_client_info": {
+          "package_name": "com.paaspop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32992616639-4fm3nuk1rk122nk9rm1hqhbnrcgivk4e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqp3HQEGMfhhTuKu05IlrLUCqbvmiVrFw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

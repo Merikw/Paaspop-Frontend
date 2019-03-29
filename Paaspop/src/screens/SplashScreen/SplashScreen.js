@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Image, StyleSheet, AsyncStorage, PermissionsAndroid, Platform } from 'react-native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  AsyncStorage,
+  PermissionsAndroid,
+  Platform,
+  YellowBox,
+} from 'react-native';
 import PropTypes from 'prop-types';
 
 import { LocalStorageKeys } from '../../utilities/constants/constants';
@@ -9,11 +17,15 @@ import Logo from '../../assets/images/paaspoplogo.png';
 
 import UpdateLocationTask from '../../utilities/tasks/UpdateLocationTask';
 import { updateUser } from '../../store/actions/users';
+import getToken from '../../utilities/firebasePushNotifications/firebasePushNotifications';
+
+YellowBox.ignoreWarnings(['Require cycle:']);
 
 class SplashScreen extends Component {
   async componentDidMount() {
     let granted;
     if (Platform.OS === 'android') {
+      await getToken();
       granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {

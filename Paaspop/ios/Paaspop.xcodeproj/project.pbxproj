@@ -68,6 +68,7 @@
 		5B7FE41B5A1147FE97C4282C /* LiberationMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1618261FAB6B4EE78708E718 /* LiberationMono-Italic.ttf */; };
 		7B41B4F5A15D4F7DB1355948 /* LiberationMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 96ED63EF9EF84598A3BE53A1 /* LiberationMono-Regular.ttf */; };
 		E7A8F41F1A0F45D6BF58C69F /* libRNBackgroundTimer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA1B9FA19854DC0ABC3F4B4 /* libRNBackgroundTimer.a */; };
+		F18E1EB1F96447C0A480B40A /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 409455419664424899AF2DE3 /* libRNFirebase.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -408,6 +409,8 @@
 		96ED63EF9EF84598A3BE53A1 /* LiberationMono-Regular.ttf */ = {isa = PBXFileReference; name = "LiberationMono-Regular.ttf"; path = "../src/assets/fonts/LiberationMono-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		EBD640543FED4FADABA53743 /* RNBackgroundTimer.xcodeproj */ = {isa = PBXFileReference; name = "RNBackgroundTimer.xcodeproj"; path = "../node_modules/react-native-background-timer/ios/RNBackgroundTimer.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		DDA1B9FA19854DC0ABC3F4B4 /* libRNBackgroundTimer.a */ = {isa = PBXFileReference; name = "libRNBackgroundTimer.a"; path = "libRNBackgroundTimer.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		BFB2A35A2C6D48D4AB6CB9AC /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; name = "RNFirebase.xcodeproj"; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		409455419664424899AF2DE3 /* libRNFirebase.a */ = {isa = PBXFileReference; name = "libRNFirebase.a"; path = "libRNFirebase.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -440,6 +443,7 @@
 				CA955ECE7FFB474EB448F64D /* libRNVectorIcons.a in Frameworks */,
 				08770BC2A89447249085E2A9 /* libReactNativeConfig.a in Frameworks */,
 				E7A8F41F1A0F45D6BF58C69F /* libRNBackgroundTimer.a in Frameworks */,
+				F18E1EB1F96447C0A480B40A /* libRNFirebase.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -636,6 +640,7 @@
 				004EF6C180354C75809CE7C5 /* RNVectorIcons.xcodeproj */,
 				AF2F2462D8E24A629E707756 /* ReactNativeConfig.xcodeproj */,
 				EBD640543FED4FADABA53743 /* RNBackgroundTimer.xcodeproj */,
+				BFB2A35A2C6D48D4AB6CB9AC /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1319,6 +1324,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1326,6 +1332,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 					"$(SRCROOT)\..\node_modules\react-native-background-timer\ios",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 				);
 			};
 			name = Debug;
@@ -1348,6 +1355,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1355,6 +1363,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 					"$(SRCROOT)\..\node_modules\react-native-background-timer\ios",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 				);
 			};
 			name = Release;
@@ -1381,6 +1390,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 					"$(SRCROOT)\..\node_modules\react-native-background-timer\ios",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 				);
 			};
 			name = Debug;
@@ -1406,6 +1416,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 					"$(SRCROOT)\..\node_modules\react-native-background-timer\ios",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 				);
 			};
 			name = Release;
@@ -1436,6 +1447,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1443,6 +1455,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 					"$(SRCROOT)\..\node_modules\react-native-background-timer\ios",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 				);
 			};
 			name = Debug;
@@ -1473,6 +1486,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1480,6 +1494,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 					"$(SRCROOT)\..\node_modules\react-native-background-timer\ios",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 				);
 			};
 			name = Release;
@@ -1509,6 +1524,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1516,6 +1532,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 					"$(SRCROOT)\..\node_modules\react-native-background-timer\ios",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 				);
 			};
 			name = Debug;
@@ -1545,6 +1562,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1552,6 +1570,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)\..\node_modules\react-native-config\ios\ReactNativeConfig",
 					"$(SRCROOT)\..\node_modules\react-native-background-timer\ios",
+					"$(SRCROOT)\..\node_modules\react-native-firebase\ios\RNFirebase/**",
 				);
 			};
 			name = Release;
