@@ -17,4 +17,7 @@ export const LocalStorageKeys = {
   User: {
     Key: 'User',
   },
+  FCM: {
+    Token: 'Token',
+  },
 };

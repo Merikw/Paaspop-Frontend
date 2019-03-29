@@ -16,23 +16,31 @@ import {
   CLEAR_ALL,
 } from './actionTypes';
 
-export const addUser = user => {
+export const addUser = userWithoutToken => {
   return dispatch => {
     dispatch(addUserIsLoading(true));
-    Post('users', user)
-      .then(async result => {
-        if (result.status !== 200) {
-          throw Error(result.statusText);
-        }
-        user = result.data;
-        user.currentLocation = {};
-        await AsyncStorage.setItem(LocalStorageKeys.User.Key, JSON.stringify(user)).then(() => {
-          return user;
-        });
-      })
-      .then(result => JSON.stringify(result))
-      .then(user => dispatch(addUserSuccess(user)))
-      .catch(() => dispatch(addUserFailure(true)));
+    let user;
+    AsyncStorage.getItem(LocalStorageKeys.FCM.Token).then(token => {
+      user = {
+        ...userWithoutToken,
+        notificationToken: token,
+      };
+
+      Post('users', user)
+        .then(async result => {
+          if (result.status !== 200) {
+            throw Error(result.statusText);
+          }
+          user = result.data;
+          user.currentLocation = {};
+          await AsyncStorage.setItem(LocalStorageKeys.User.Key, JSON.stringify(user)).then(() => {
+            return user;
+          });
+        })
+        .then(result => JSON.stringify(result))
+        .then(user => dispatch(addUserSuccess(user)))
+        .catch(() => dispatch(addUserFailure(true)));
+    });
   };
 };
 
