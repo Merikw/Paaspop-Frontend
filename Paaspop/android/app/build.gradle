@@ -125,6 +125,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            manifestPlaceholders = [mapsApiKey:String.valueOf(System.getenv("MAPS_API_KEY"))]
         }
     }
     // applicationVariants are e.g. debug, release
