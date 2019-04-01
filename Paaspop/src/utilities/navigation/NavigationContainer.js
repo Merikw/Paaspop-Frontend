@@ -14,6 +14,7 @@ import PerformancesScreen from '../../screens/PerformancesScreen/PerformancesScr
 import PlacesScreen from '../../screens/PlacesScreen/PlacesScreen';
 import OwnScreen from '../../screens/OwnScreen/OwnScreen';
 import PerformanceDetailScreen from '../../screens/PerformanceDetailScreen/PerformanceDetailScreen';
+import PlaceDetailScreen from '../../screens/PlaceDetailScreen/PlaceDetailScreen';
 
 import Header from '../../components/header/Header';
 import { Colors } from '../../assets/GeneralStyle';
@@ -79,6 +80,10 @@ const AppNavigator = createStackNavigator({
   },
   PerformanceDetail: {
     screen: PerformanceDetailScreen,
+    navigationOptions: Header,
+  },
+  PlaceDetail: {
+    screen: PlaceDetailScreen,
     navigationOptions: Header,
   },
 });

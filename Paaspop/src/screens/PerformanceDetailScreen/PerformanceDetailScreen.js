@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   crowdBar: {
     height: '100%',
-    width: '70%',
+    width: '90%',
     backgroundColor: Colors.gray,
     alignSelf: 'center',
   },
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingRight: '2%',
     marginTop: '5%',
-    height: '3%',
+    height: '2%',
     alignItems: 'center',
   },
   InterestText: {
