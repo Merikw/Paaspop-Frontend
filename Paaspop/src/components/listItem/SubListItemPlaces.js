@@ -1,45 +1,57 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Colors } from '../../assets/GeneralStyle';
 
-const SubListItem = props => {
-  const { items, maxPercentage } = props;
-  return (
-    <View>
-      {items.map(bestPlace => {
-        const place = bestPlace.place;
-        return (
-          <View key={place.id} style={styles.listItem}>
-            <TouchableOpacity style={styles.listItemTextContainer}>
-              <Text style={styles.listItemText}>{place.name}</Text>
-            </TouchableOpacity>
-            <View style={styles.secondListItemTextContainer}>
-              <Text style={styles.listItemText}>{`${bestPlace.distance.absoluteDistance}M`}</Text>
-            </View>
-            <View style={styles.crowdBarContainer}>
-              <View style={styles.crowdBar}>
-                <View
-                  style={[
-                    {
-                      width: `${(place.crowdPercentage.absolutePercentage / maxPercentage) * 100}%`,
-                    },
-                    styles.filler,
-                  ]}
-                />
+class SubListItem extends Component {
+  onPressPlace = place => () => {
+    const { onPressPlace } = this.props;
+    onPressPlace(place);
+  };
+
+  render() {
+    const { items, maxPercentage } = this.props;
+    return (
+      <View>
+        {items.map(bestPlace => {
+          const place = bestPlace.place;
+          return (
+            <View key={place.id} style={styles.listItem}>
+              <TouchableOpacity
+                style={styles.listItemTextContainer}
+                onPress={this.onPressPlace(place)}
+              >
+                <Text style={styles.listItemText}>{place.name}</Text>
+              </TouchableOpacity>
+              <View style={styles.secondListItemTextContainer}>
+                <Text style={styles.listItemText}>{`${bestPlace.distance.absoluteDistance}M`}</Text>
+              </View>
+              <View style={styles.crowdBarContainer}>
+                <View style={styles.crowdBar}>
+                  <View
+                    style={[
+                      {
+                        width: `${(place.crowdPercentage.absolutePercentage / maxPercentage) *
+                          100}%`,
+                      },
+                      styles.filler,
+                    ]}
+                  />
+                </View>
               </View>
             </View>
-          </View>
-        );
-      })}
-    </View>
-  );
-};
+          );
+        })}
+      </View>
+    );
+  }
+}
 
 SubListItem.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
   maxPercentage: PropTypes.number,
+  onPressPlace: PropTypes.func.isRequired,
 };
 
 SubListItem.defaultProps = {

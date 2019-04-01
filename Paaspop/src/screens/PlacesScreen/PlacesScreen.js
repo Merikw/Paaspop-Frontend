@@ -42,6 +42,11 @@ class PlacesScreen extends Component {
       }));
   };
 
+  pressPlace = place => {
+    const { navigation } = this.props;
+    navigation.navigate('PlaceDetail', { place: place });
+  };
+
   renderListItems = (item, maxPercentage) => {
     const { openendPlaces } = this.state;
     const isOpened = openendPlaces.indexOf(item.key) !== -1;
@@ -49,7 +54,11 @@ class PlacesScreen extends Component {
       <View key={item.key} style={styles.listItemContainer}>
         <ListItemPlaces name={item.key} onOpen={this.onOpenPlaceHandler} opened={isOpened} />
         {isOpened ? (
-          <SubListItemPlaces maxPercentage={maxPercentage} items={item.value} />
+          <SubListItemPlaces
+            maxPercentage={maxPercentage}
+            items={item.value}
+            onPressPlace={this.pressPlace}
+          />
         ) : (
           <View />
         )}
