@@ -85,6 +85,7 @@ const AppNavigator = createStackNavigator({
   PlaceDetail: {
     screen: PlaceDetailScreen,
     navigationOptions: Header,
+    path: 'meetingpoint/:lat/:lon',
   },
 });
 

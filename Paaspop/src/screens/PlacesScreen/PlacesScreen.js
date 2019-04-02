@@ -44,7 +44,7 @@ class PlacesScreen extends Component {
 
   pressPlace = place => {
     const { navigation } = this.props;
-    navigation.navigate('PlaceDetail', { place: place });
+    navigation.navigate('PlaceDetail', { location: place.location });
   };
 
   renderListItems = (item, maxPercentage) => {

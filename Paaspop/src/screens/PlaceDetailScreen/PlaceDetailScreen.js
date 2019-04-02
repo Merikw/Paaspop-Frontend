@@ -9,23 +9,23 @@ import { Colors } from '../../assets/GeneralStyle';
 
 class PlaceDetailScreen extends Component {
   state = {
-    place: {},
+    location: {},
   };
 
   componentDidMount() {
     const { navigation } = this.props;
     this.setState({
-      place: navigation.getParam('place', {}),
+      location: navigation.getParam('location', {}),
     });
   }
 
   render() {
-    const { place } = this.state;
+    const { location } = this.state;
     return (
       <View style={styles.floorPlanContainer}>
-        {!place.location ? (
+        {!location ? (
           <View style={styles.innerContainer}>
-            <Loader isLoading={place.location ? true : false} />
+            <Loader isLoading={location ? true : false} />
           </View>
         ) : (
           <MapView
@@ -45,10 +45,9 @@ class PlaceDetailScreen extends Component {
           >
             <Marker
               coordinate={{
-                latitude: place.location.latitude,
-                longitude: place.location.longitude,
+                latitude: location.latitude,
+                longitude: location.longitude,
               }}
-              title={place.name}
               pinColor={Colors.primary}
             />
             <Overlay image={Floorplan} bounds={[[51.644861, 5.415408], [51.64074, 5.419571]]} />

@@ -8,6 +8,7 @@ import {
   PermissionsAndroid,
   Platform,
   YellowBox,
+  Linking,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -25,6 +26,9 @@ class SplashScreen extends Component {
   async componentDidMount() {
     let granted;
     if (Platform.OS === 'android') {
+      Linking.getInitialURL().then(url => {
+        this.navigate(url);
+      });
       await setFirebase();
       granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -35,6 +39,8 @@ class SplashScreen extends Component {
           buttonPositive: 'OK',
         }
       );
+    } else {
+      Linking.addEventListener('url', this.handleOpenURL);
     }
 
     if (granted === PermissionsAndroid.RESULTS.GRANTED || Platform.OS === 'ios') {
@@ -48,6 +54,30 @@ class SplashScreen extends Component {
       }
     }
   }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURL);
+  }
+
+  handleOpenURL = event => {
+    this.navigate(event.url);
+  };
+
+  navigate = url => {
+    const { navigation } = this.props;
+
+    const route = url.replace(/.*?:\/\//g, '');
+    const id = route.match(/\/([^/]+)\/?$/)[1];
+    const splittedroute = route.split('/');
+    alert(JSON.stringify(splittedroute));
+    if (splittedroute[0] === 'meetingpoint') {
+      navigation.navigate('People', { id, name: 'chris' });
+    }
+
+    navigation.navigate('PlaceDetail', {
+      location: { latitude: splittedroute[1], longitude: splittedroute[2] },
+    });
+  };
 
   getUser = async () => {
     return new Promise(resolve =>
