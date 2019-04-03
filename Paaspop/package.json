@@ -21,6 +21,7 @@
     "react-native-maps": "github:react-native-community/react-native-maps#master",
     "react-native-popup-dialog": "^0.17.0",
     "react-native-responsive-screen": "^1.2.0",
+    "react-native-share": "git+https://github.com/react-native-community/react-native-share.git#master",
     "react-native-switch": "^1.5.0",
     "react-native-vector-icons": "^6.3.0",
     "react-navigation": "^3.3.2",
