@@ -44,7 +44,7 @@ class MapScreen extends Component {
     const shareOptions = {
       message:
         'Help, ik ben je kwijt! De paaspop app heeft dit meeting punt voorgesteld, kom je hierheen?',
-      url: `paaspopapp://paaspop/meetingpoint/${meetingPoint.location.latitude}/${
+      url: `http://paaspopapp.nl/meetingpoint/${meetingPoint.location.latitude}/${
         meetingPoint.location.longitude
       }`,
     };
@@ -88,6 +88,17 @@ MapScreen.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
+  onGenerateMeetingPoint: PropTypes.func.isRequired,
+  generateMeetingPointAction: PropTypes.shape(
+    PropTypes.objectOf,
+    PropTypes.bool,
+    PropTypes.bool,
+    PropTypes.bool
+  ),
+};
+
+MapScreen.defaultProps = {
+  generateMeetingPointAction: { performances: [], error: false, loading: false, succes: false },
 };
 
 const styles = StyleSheet.create({

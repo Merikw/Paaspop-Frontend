@@ -42,7 +42,6 @@ class SplashScreen extends Component {
     } else {
       Linking.addEventListener('url', this.handleOpenURL);
     }
-
     if (granted === PermissionsAndroid.RESULTS.GRANTED || Platform.OS === 'ios') {
       const data = await this.getUser();
       const { navigation, onUpdateUser } = this.props;
@@ -65,18 +64,15 @@ class SplashScreen extends Component {
 
   navigate = url => {
     const { navigation } = this.props;
-
-    const route = url.replace(/.*?:\/\//g, '');
-    const id = route.match(/\/([^/]+)\/?$/)[1];
-    const splittedroute = route.split('/');
-    alert(JSON.stringify(splittedroute));
-    if (splittedroute[0] === 'meetingpoint') {
-      navigation.navigate('People', { id, name: 'chris' });
+    const splittedroute = url.split('/');
+    if (splittedroute[3] === 'meetingpoint') {
+      navigation.navigate('PlaceDetail', {
+        location: {
+          latitude: parseFloat(splittedroute[4]),
+          longitude: parseFloat(splittedroute[5]),
+        },
+      });
     }
-
-    navigation.navigate('PlaceDetail', {
-      location: { latitude: splittedroute[1], longitude: splittedroute[2] },
-    });
   };
 
   getUser = async () => {

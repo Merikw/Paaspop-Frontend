@@ -9,7 +9,7 @@ import { Colors } from '../../assets/GeneralStyle';
 
 class PlaceDetailScreen extends Component {
   state = {
-    location: {},
+    location: null,
   };
 
   componentDidMount() {
@@ -33,8 +33,8 @@ class PlaceDetailScreen extends Component {
             provider={PROVIDER_GOOGLE}
             style={styles.map}
             region={{
-              latitude: 51.642618,
-              longitude: 5.4175,
+              latitude: location.latitude,
+              longitude: location.longitude,
               latitudeDelta: 0.003,
               longitudeDelta: 0.003,
             }}
