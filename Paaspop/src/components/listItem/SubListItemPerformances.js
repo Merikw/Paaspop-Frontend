@@ -35,7 +35,10 @@ class SubListItem extends Component {
           }
           return (
             <View key={performance.id} style={styles.listItem}>
-              <TouchableOpacity onPress={this.onPressPerformance(performance)}>
+              <TouchableOpacity
+                style={styles.listItemClickable}
+                onPress={this.onPressPerformance(performance)}
+              >
                 <Text style={styles.listItemText}>{performance.artist.name}</Text>
                 <Text style={styles.listItemSubText}>{`${date} (${
                   performance.performanceTime.startTime
@@ -110,9 +113,13 @@ const styles = StyleSheet.create({
     fontFamily: 'LiberationSans-Italic',
     fontSize: 15,
   },
+  listItemClickable: {
+    maxWidth: '85%',
+  },
   listItem: {
     flex: 1,
     height: '100%',
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: '3%',

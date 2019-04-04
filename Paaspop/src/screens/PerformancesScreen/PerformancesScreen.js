@@ -148,7 +148,7 @@ class PerformancesScreen extends Component {
       updateUser = {
         ...user,
         userUpdateType: 1,
-        favoritePerformances: favoritePerformances,
+        favoritePerformances: favoritePerformances.map(p => p.id),
       };
     } else {
       const index = favoritePerformances.findIndex(p => p.id === performanceId);
@@ -156,7 +156,7 @@ class PerformancesScreen extends Component {
       updateUser = {
         ...user,
         userUpdateType: 1,
-        favoritePerformances: favoritePerformances,
+        favoritePerformances: favoritePerformances.map(p => p.id),
       };
     }
 
