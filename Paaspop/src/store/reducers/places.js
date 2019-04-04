@@ -5,6 +5,7 @@ import {
   GENERATE_MEETING_POINT_IS_LOADING,
   GENERATE_MEETING_POINT_FAIL,
   GENERATE_MEETING_POINT_SUCCESS,
+  CLEAR_MEETING_POINT,
   CLEAR_ALL,
 } from '../actions/actionTypes';
 
@@ -89,6 +90,16 @@ const reducer = (state = initialState, action) => {
           meetingPoint: null,
           loading: false,
           error: action.payload,
+          succes: false,
+        },
+      };
+    case CLEAR_MEETING_POINT:
+      return {
+        ...state,
+        generateMeetingPointAction: {
+          meetingPoint: action.payload,
+          loading: false,
+          error: false,
           succes: false,
         },
       };

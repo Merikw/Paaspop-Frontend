@@ -7,6 +7,7 @@ import {
   GENERATE_MEETING_POINT_IS_LOADING,
   GENERATE_MEETING_POINT_FAIL,
   GENERATE_MEETING_POINT_SUCCESS,
+  CLEAR_MEETING_POINT,
 } from './actionTypes';
 
 export const getBestPlaces = (lat, lon) => {
@@ -82,5 +83,12 @@ export const generateMeetingPointFailure = error => {
   return {
     type: GENERATE_MEETING_POINT_FAIL,
     payload: error,
+  };
+};
+
+export const clearMeetingPoint = () => {
+  return {
+    type: CLEAR_MEETING_POINT,
+    payload: null,
   };
 };
