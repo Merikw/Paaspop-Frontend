@@ -96,7 +96,7 @@ class OwnScreen extends Component {
   renderListItems = favoritePerformances => {
     const { isOpened } = this.state;
     return (
-      <View stlye={styles.favoritePerformancesContainer}>
+      <View style={styles.favoritePerformancesContainer}>
         <ListItem name="Mijn rooster" onOpen={this.onOpenStageHandler} opened={isOpened} />
         <ScrollView>
           {isOpened ? (
@@ -149,6 +149,11 @@ class OwnScreen extends Component {
         <TouchableOpacity style={styles.textContainer} onPress={this.handleModal}>
           <Text style={[styles.text, styles.dangerText]}>Account verwijderen</Text>
         </TouchableOpacity>
+        {getFavoritePerformancesAction.performances ? (
+          this.renderListItems(getFavoritePerformancesAction.performances)
+        ) : (
+          <View />
+        )}
         <CustomModal
           onClose={this.handleModal}
           visible={visible}
@@ -167,11 +172,6 @@ class OwnScreen extends Component {
             </View>
           </View>
         </CustomModal>
-        {getFavoritePerformancesAction.performances ? (
-          this.renderListItems(getFavoritePerformancesAction.performances)
-        ) : (
-          <View />
-        )}
       </View>
     );
   }
@@ -209,7 +209,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   favoritePerformancesContainer: {
-    maxHeight: '10%',
+    flexDirection: 'column',
+    maxHeight: '55%',
   },
   text: {
     color: Colors.black,

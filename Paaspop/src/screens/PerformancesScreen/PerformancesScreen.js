@@ -269,13 +269,15 @@ class PerformancesScreen extends Component {
           />
           <Text style={Styles.mainText}>Stages</Text>
         </View>
-        {getPerformancesAction.performancesViewModel ? (
-          getPerformancesAction.performancesViewModel.performances.map(item => {
-            return this.renderListItems(item);
-          })
-        ) : (
-          <View />
-        )}
+        <ScrollView>
+          {getPerformancesAction.performancesViewModel ? (
+            getPerformancesAction.performancesViewModel.performances.map(item => {
+              return this.renderListItems(item);
+            })
+          ) : (
+            <View />
+          )}
+        </ScrollView>
         <CustomModal
           onClose={this.handleModalChosenArtist}
           visible={chosenArtistVisible}
