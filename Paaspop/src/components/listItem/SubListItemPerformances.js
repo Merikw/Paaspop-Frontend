@@ -17,7 +17,14 @@ class SubListItem extends Component {
   };
 
   render() {
-    const { items, favoritePerformances, favoriteIcon, showStage, suggestions } = this.props;
+    const {
+      items,
+      favoritePerformances,
+      favoriteIcon,
+      showStage,
+      suggestions,
+      isSuggestionStage,
+    } = this.props;
     return (
       <View>
         {items.map(performance => {
@@ -45,7 +52,7 @@ class SubListItem extends Component {
                 } - ${performance.performanceTime.endTime}) ${
                   showStage ? `- ${performance.stage.name}` : ''
                 } ${
-                  suggestions.findIndex(p => p.id === performance.id) !== -1
+                  suggestions.findIndex(p => p.id === performance.id) !== -1 && !isSuggestionStage
                     ? `- Voorgesteld voor jou!`
                     : ''
                 }`}</Text>
@@ -91,6 +98,7 @@ SubListItem.propTypes = {
   favoriteIcon: PropTypes.bool,
   showStage: PropTypes.bool,
   suggestions: PropTypes.arrayOf(PropTypes.object),
+  isSuggestionStage: PropTypes.bool,
 };
 
 SubListItem.defaultProps = {
@@ -98,6 +106,7 @@ SubListItem.defaultProps = {
   favoritePerformances: [{}],
   favoriteIcon: false,
   showStage: false,
+  isSuggestionStage: false,
   suggestions: [{}],
 };
 

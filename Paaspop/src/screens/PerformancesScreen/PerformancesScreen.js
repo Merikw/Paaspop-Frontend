@@ -13,12 +13,13 @@ import SubListItemPerformances from '../../components/listItem/SubListItemPerfor
 import getUser from '../../utilities/getUser/getUser';
 
 let userFavorites = [];
+const SUGGESTION_STAGE_NAME = 'Suggesties voor jou!';
 
 class PerformancesScreen extends Component {
   state = {
     openendStages: [],
     user: {},
-    visible: false,
+    visible: null,
     isOverlap: false,
     overlappingArtists: [],
     artistToNotBeFavorited: {},
@@ -35,7 +36,6 @@ class PerformancesScreen extends Component {
       });
       onGetPerformances(response.id);
       onGetFavoritePerformances(response.id);
-      this.openModal();
       navigation.addListener('willFocus', () => {
         onGetFavoritePerformances(response.id);
         onGetPerformances(response.id);
@@ -47,6 +47,7 @@ class PerformancesScreen extends Component {
     const { getFavoritePerformancesAction } = this.props;
     if (getFavoritePerformancesAction.succes) {
       userFavorites = getFavoritePerformancesAction.performances;
+      this.openModal();
     }
   }
 
@@ -168,7 +169,8 @@ class PerformancesScreen extends Component {
   };
 
   openModal = () => {
-    if (userFavorites.length < 10) {
+    const { visible } = this.state;
+    if (userFavorites.length < 5 && visible === null) {
       this.setState({
         visible: true,
       });
@@ -176,10 +178,8 @@ class PerformancesScreen extends Component {
   };
 
   handleModal = () => {
-    this.setState(prevState => {
-      return {
-        visible: !prevState.visible,
-      };
+    this.setState({
+      visible: false,
     });
   };
 
@@ -245,6 +245,7 @@ class PerformancesScreen extends Component {
             <SubListItemPerformances
               items={item.value}
               favoritePerformances={userFavorites}
+              isSuggestionStage={item.key === SUGGESTION_STAGE_NAME}
               suggestions={getPerformancesAction.performancesViewModel.suggestionPerformances}
               onPressIcon={this.updateFavorite}
               favoriteIcon
