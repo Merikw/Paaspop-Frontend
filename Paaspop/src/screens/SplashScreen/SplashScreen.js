@@ -63,15 +63,17 @@ class SplashScreen extends Component {
   };
 
   navigate = url => {
-    const { navigation } = this.props;
-    const splittedroute = url.split('/');
-    if (splittedroute[3] === 'meetingpoint') {
-      navigation.navigate('PlaceDetail', {
-        location: {
-          latitude: parseFloat(splittedroute[4]),
-          longitude: parseFloat(splittedroute[5]),
-        },
-      });
+    if (url !== null) {
+      const { navigation } = this.props;
+      const splittedroute = url.split('/');
+      if (splittedroute[3] === 'meetingpoint') {
+        navigation.navigate('PlaceDetail', {
+          location: {
+            latitude: parseFloat(splittedroute[4]),
+            longitude: parseFloat(splittedroute[5]),
+          },
+        });
+      }
     }
   };
 

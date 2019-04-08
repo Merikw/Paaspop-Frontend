@@ -16,7 +16,9 @@ class PerformanceDetailScreen extends Component {
 
   render() {
     const renderGenres = (genre, isLast) => {
-      return <Text style={styles.artistMetaDataText}>{`${genre}${isLast ? '' : ', '}`}</Text>;
+      return (
+        <Text key={genre} style={styles.artistMetaDataText}>{`${genre}${isLast ? '' : ', '}`}</Text>
+      );
     };
 
     const getDay = performance => {

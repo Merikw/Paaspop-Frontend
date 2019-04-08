@@ -37,7 +37,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         getBestPlacesAction: {
-          bestPlaces: null,
+          bestPlaces: {
+            bestPlaces: [],
+            maxPercentage: 1,
+          },
           loading: action.payload,
           error: false,
           succes: false,
