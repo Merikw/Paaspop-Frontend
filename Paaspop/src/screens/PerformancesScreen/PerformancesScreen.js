@@ -297,7 +297,7 @@ class PerformancesScreen extends Component {
         </CustomModal>
         <CustomModal
           onClose={this.handleModal}
-          visible={visible === null ? false : true}
+          visible={visible}
           title="Als je minimaal 5 artiesten een like geeft kun je jouw suggesties zien!"
         >
           <View style={styles.centerContainer}>
