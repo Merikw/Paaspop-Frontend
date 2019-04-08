@@ -59,15 +59,17 @@ class PerformanceDetailScreen extends Component {
               <Text style={[styles.artistMetaDataText, styles.artistMetaDataTextFirst]}>
                 Genres:
               </Text>
-              {getPerformanceByIdAction.performance.artist.genres.map(genre => {
-                return renderGenres(
-                  genre,
-                  genre ===
-                    getPerformanceByIdAction.performance.artist.genres[
-                      getPerformanceByIdAction.performance.artist.genres.length - 1
-                    ]
-                );
-              })}
+              <ScrollView horizontal>
+                {getPerformanceByIdAction.performance.artist.genres.map(genre => {
+                  return renderGenres(
+                    genre,
+                    genre ===
+                      getPerformanceByIdAction.performance.artist.genres[
+                        getPerformanceByIdAction.performance.artist.genres.length - 1
+                      ]
+                  );
+                })}
+              </ScrollView>
             </View>
             <View style={styles.artistMetaData}>
               <Text style={[styles.artistMetaDataText, styles.artistMetaDataTextFirst]}>Tijd:</Text>
