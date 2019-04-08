@@ -26,19 +26,21 @@ class SubListItem extends Component {
       isSuggestionStage,
     } = this.props;
     return (
-      <View>
+      <View style={styles.listItemContainer}>
         {items.map(performance => {
-          let date = performance.performanceTime.day;
-          switch (performance.performanceTime.day) {
-            case 5:
-              date = 'Vr';
-              break;
-            case 6:
-              date = 'Za';
-              break;
-            case 7:
-              date = 'Zo';
-              break;
+          let date = performance.performanceTime ? performance.performanceTime.day : '';
+          if (date !== '') {
+            switch (performance.performanceTime.day) {
+              case 5:
+                date = 'Vr';
+                break;
+              case 6:
+                date = 'Za';
+                break;
+              case 7:
+                date = 'Zo';
+                break;
+            }
           }
           return (
             <View key={performance.id} style={styles.listItem}>
@@ -48,8 +50,8 @@ class SubListItem extends Component {
               >
                 <Text style={styles.listItemText}>{performance.artist.name}</Text>
                 <Text style={styles.listItemSubText}>{`${date} (${
-                  performance.performanceTime.startTime
-                } - ${performance.performanceTime.endTime}) ${
+                  performance.performanceTime ? performance.performanceTime.startTime : ''
+                } - ${performance.performanceTime ? performance.performanceTime.endTime : ''}) ${
                   showStage ? `- ${performance.stage.name}` : ''
                 } ${
                   suggestions.findIndex(p => p.id === performance.id) !== -1 && !isSuggestionStage
@@ -133,6 +135,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop: '3%',
     paddingLeft: '2%',
+  },
+  listItemContainer: {
+    justifyContent: 'center',
   },
   iconsContainer: {
     justifyContent: 'center',
