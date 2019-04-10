@@ -27,17 +27,19 @@ class SubListItem extends Component {
               <View style={styles.secondListItemTextContainer}>
                 <Text style={styles.listItemText}>{`${bestPlace.distance.absoluteDistance}M`}</Text>
               </View>
-              <View style={styles.crowdBarContainer}>
-                <View style={styles.crowdBar}>
-                  <View
-                    style={[
-                      {
-                        width: `${(place.crowdPercentage.absolutePercentage / maxPercentage) *
-                          100}%`,
-                      },
-                      styles.filler,
-                    ]}
-                  />
+              <View style={styles.centercontainer}>
+                <View style={styles.crowdBarContainer}>
+                  <View style={styles.crowdBar}>
+                    <View
+                      style={[
+                        {
+                          width: `${(place.crowdPercentage.absolutePercentage / maxPercentage) *
+                            100}%`,
+                        },
+                        styles.filler,
+                      ]}
+                    />
+                  </View>
                 </View>
               </View>
             </View>
@@ -81,19 +83,22 @@ const styles = StyleSheet.create({
     paddingLeft: '2%',
   },
   crowdBar: {
-    maxHeight: 30,
-    height: '15%',
     width: '100%',
     backgroundColor: Colors.gray,
   },
   crowdBarContainer: {
-    width: '30%',
+    height: 4,
+    width: '100%',
     justifyContent: 'center',
     paddingRight: '2%',
   },
   filler: {
     height: '100%',
     backgroundColor: Colors.primary,
+  },
+  centercontainer: {
+    justifyContent: 'center',
+    width: '30%',
   },
 });
 

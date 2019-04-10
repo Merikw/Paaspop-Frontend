@@ -13,12 +13,13 @@ import SubListItemPerformances from '../../components/listItem/SubListItemPerfor
 import getUser from '../../utilities/getUser/getUser';
 
 let userFavorites = [];
+const SUGGESTION_STAGE_NAME = 'Suggesties voor jou!';
 
 class PerformancesScreen extends Component {
   state = {
     openendStages: [],
     user: {},
-    visible: false,
+    visible: null,
     isOverlap: false,
     overlappingArtists: [],
     artistToNotBeFavorited: {},
@@ -35,7 +36,6 @@ class PerformancesScreen extends Component {
       });
       onGetPerformances(response.id);
       onGetFavoritePerformances(response.id);
-      this.openModal();
       navigation.addListener('willFocus', () => {
         onGetFavoritePerformances(response.id);
         onGetPerformances(response.id);
@@ -47,6 +47,7 @@ class PerformancesScreen extends Component {
     const { getFavoritePerformancesAction } = this.props;
     if (getFavoritePerformancesAction.succes) {
       userFavorites = getFavoritePerformancesAction.performances;
+      this.openModal();
     }
   }
 
@@ -88,12 +89,12 @@ class PerformancesScreen extends Component {
     const favoritePerformances = userFavorites;
     let foundPerformance;
     const foundFavoritePerformance = favoritePerformances.find(p => p.id === performanceId);
-    const newOverlappingArtists = [];
+    const newOverlappingArtists = new Set([]);
     if (!foundFavoritePerformance) {
       for (let stage of getPerformancesAction.performancesViewModel.performances) {
         foundPerformance = stage.value.find(p => p.id === performanceId);
         if (foundPerformance !== undefined) {
-          newOverlappingArtists.push(foundPerformance);
+          newOverlappingArtists.add(foundPerformance);
           this.setState(prevState => {
             return {
               ...prevState,
@@ -148,7 +149,7 @@ class PerformancesScreen extends Component {
       updateUser = {
         ...user,
         userUpdateType: 1,
-        favoritePerformances: favoritePerformances,
+        favoritePerformances: favoritePerformances.map(p => p.id),
       };
     } else {
       const index = favoritePerformances.findIndex(p => p.id === performanceId);
@@ -156,7 +157,7 @@ class PerformancesScreen extends Component {
       updateUser = {
         ...user,
         userUpdateType: 1,
-        favoritePerformances: favoritePerformances,
+        favoritePerformances: favoritePerformances.map(p => p.id),
       };
     }
 
@@ -168,7 +169,8 @@ class PerformancesScreen extends Component {
   };
 
   openModal = () => {
-    if (userFavorites.length < 10) {
+    const { visible } = this.state;
+    if (userFavorites.length < 5 && visible === null) {
       this.setState({
         visible: true,
       });
@@ -176,10 +178,8 @@ class PerformancesScreen extends Component {
   };
 
   handleModal = () => {
-    this.setState(prevState => {
-      return {
-        visible: !prevState.visible,
-      };
+    this.setState({
+      visible: false,
     });
   };
 
@@ -245,9 +245,10 @@ class PerformancesScreen extends Component {
             <SubListItemPerformances
               items={item.value}
               favoritePerformances={userFavorites}
+              isSuggestionStage={item.key === SUGGESTION_STAGE_NAME}
               suggestions={getPerformancesAction.performancesViewModel.suggestionPerformances}
               onPressIcon={this.updateFavorite}
-              favoriteIcon
+              favoriteIcon={item.key === 'Suggesties voor jou!' ? false : true}
               onPressPerformance={this.pressPerformance}
             />
           ) : (
@@ -269,13 +270,15 @@ class PerformancesScreen extends Component {
           />
           <Text style={Styles.mainText}>Stages</Text>
         </View>
-        {getPerformancesAction.performancesViewModel ? (
-          getPerformancesAction.performancesViewModel.performances.map(item => {
-            return this.renderListItems(item);
-          })
-        ) : (
-          <View />
-        )}
+        <ScrollView>
+          {getPerformancesAction.performancesViewModel ? (
+            getPerformancesAction.performancesViewModel.performances.map(item => {
+              return this.renderListItems(item);
+            })
+          ) : (
+            <View />
+          )}
+        </ScrollView>
         <CustomModal
           onClose={this.handleModalChosenArtist}
           visible={chosenArtistVisible}

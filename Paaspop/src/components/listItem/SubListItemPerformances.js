@@ -17,32 +17,44 @@ class SubListItem extends Component {
   };
 
   render() {
-    const { items, favoritePerformances, favoriteIcon, showStage, suggestions } = this.props;
+    const {
+      items,
+      favoritePerformances,
+      favoriteIcon,
+      showStage,
+      suggestions,
+      isSuggestionStage,
+    } = this.props;
     return (
       <View>
         {items.map(performance => {
-          let date = performance.performanceTime.day;
-          switch (performance.performanceTime.day) {
-            case 5:
-              date = 'Vr';
-              break;
-            case 6:
-              date = 'Za';
-              break;
-            case 7:
-              date = 'Zo';
-              break;
+          let date = performance.performanceTime ? performance.performanceTime.day : '';
+          if (date !== '') {
+            switch (performance.performanceTime.day) {
+              case 5:
+                date = 'Vr';
+                break;
+              case 6:
+                date = 'Za';
+                break;
+              case 7:
+                date = 'Zo';
+                break;
+            }
           }
           return (
             <View key={performance.id} style={styles.listItem}>
-              <TouchableOpacity onPress={this.onPressPerformance(performance)}>
+              <TouchableOpacity
+                style={styles.listItemClickable}
+                onPress={this.onPressPerformance(performance)}
+              >
                 <Text style={styles.listItemText}>{performance.artist.name}</Text>
                 <Text style={styles.listItemSubText}>{`${date} (${
-                  performance.performanceTime.startTime
-                } - ${performance.performanceTime.endTime}) ${
+                  performance.performanceTime ? performance.performanceTime.startTime : ''
+                } - ${performance.performanceTime ? performance.performanceTime.endTime : ''}) ${
                   showStage ? `- ${performance.stage.name}` : ''
                 } ${
-                  suggestions.findIndex(p => p.id === performance.id) !== -1
+                  suggestions.findIndex(p => p.id === performance.id) !== -1 && !isSuggestionStage
                     ? `- Voorgesteld voor jou!`
                     : ''
                 }`}</Text>
@@ -88,6 +100,7 @@ SubListItem.propTypes = {
   favoriteIcon: PropTypes.bool,
   showStage: PropTypes.bool,
   suggestions: PropTypes.arrayOf(PropTypes.object),
+  isSuggestionStage: PropTypes.bool,
 };
 
 SubListItem.defaultProps = {
@@ -95,6 +108,7 @@ SubListItem.defaultProps = {
   favoritePerformances: [{}],
   favoriteIcon: false,
   showStage: false,
+  isSuggestionStage: false,
   suggestions: [{}],
 };
 
@@ -110,13 +124,17 @@ const styles = StyleSheet.create({
     fontFamily: 'LiberationSans-Italic',
     fontSize: 15,
   },
+  listItemClickable: {
+    maxWidth: '85%',
+  },
   listItem: {
     flex: 1,
     height: '100%',
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: '3%',
     paddingLeft: '2%',
+    paddingBottom: '2%',
   },
   iconsContainer: {
     justifyContent: 'center',
