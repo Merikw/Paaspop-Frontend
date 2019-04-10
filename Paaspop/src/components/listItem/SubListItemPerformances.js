@@ -26,7 +26,7 @@ class SubListItem extends Component {
       isSuggestionStage,
     } = this.props;
     return (
-      <View style={styles.listItemContainer}>
+      <View>
         {items.map(performance => {
           let date = performance.performanceTime ? performance.performanceTime.day : '';
           if (date !== '') {
@@ -133,11 +133,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: '3%',
     paddingLeft: '2%',
-  },
-  listItemContainer: {
-    justifyContent: 'center',
+    paddingBottom: '2%',
   },
   iconsContainer: {
     justifyContent: 'center',

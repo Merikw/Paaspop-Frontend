@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Share from 'react-native-share';
-import MapView, { PROVIDER_GOOGLE, Overlay } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Overlay, Marker } from 'react-native-maps';
 import Floorplan from '../../assets/images/floorplan.jpg';
 import { generateMeetingPoint, clearMeetingPoint } from '../../store/actions/places';
 import { Colors } from '../../assets/GeneralStyle';
@@ -56,6 +56,7 @@ class MapScreen extends Component {
   };
 
   render() {
+    const { generateMeetingPointAction } = this.props;
     return (
       <View style={styles.floorPlanContainer}>
         <MapView
@@ -63,8 +64,12 @@ class MapScreen extends Component {
           provider={PROVIDER_GOOGLE}
           style={styles.map}
           region={{
-            latitude: 51.642618,
-            longitude: 5.4175,
+            latitude: generateMeetingPointAction.succes
+              ? generateMeetingPointAction.meetingPoint.location.latitude
+              : 51.642618,
+            longitude: generateMeetingPointAction.succes
+              ? generateMeetingPointAction.meetingPoint.location.longitude
+              : 5.4175,
             latitudeDelta: 0.003,
             longitudeDelta: 0.003,
           }}
@@ -73,6 +78,18 @@ class MapScreen extends Component {
           showsUserLocation
           mapType="none"
         >
+          {generateMeetingPointAction.succes ? (
+            <Marker
+              title="Gegenereerd meeting punt"
+              coordinate={{
+                latitude: generateMeetingPointAction.meetingPoint.location.latitude,
+                longitude: generateMeetingPointAction.meetingPoint.location.longitude,
+              }}
+              pinColor={Colors.primary}
+            />
+          ) : (
+            <View />
+          )}
           <Overlay image={Floorplan} bounds={[[51.644861, 5.415408], [51.64074, 5.419571]]} />
         </MapView>
         <TouchableOpacity

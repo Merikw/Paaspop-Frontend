@@ -89,12 +89,12 @@ class PerformancesScreen extends Component {
     const favoritePerformances = userFavorites;
     let foundPerformance;
     const foundFavoritePerformance = favoritePerformances.find(p => p.id === performanceId);
-    const newOverlappingArtists = [];
+    const newOverlappingArtists = new Set([]);
     if (!foundFavoritePerformance) {
       for (let stage of getPerformancesAction.performancesViewModel.performances) {
         foundPerformance = stage.value.find(p => p.id === performanceId);
         if (foundPerformance !== undefined) {
-          newOverlappingArtists.push(foundPerformance);
+          newOverlappingArtists.add(foundPerformance);
           this.setState(prevState => {
             return {
               ...prevState,
@@ -248,7 +248,7 @@ class PerformancesScreen extends Component {
               isSuggestionStage={item.key === SUGGESTION_STAGE_NAME}
               suggestions={getPerformancesAction.performancesViewModel.suggestionPerformances}
               onPressIcon={this.updateFavorite}
-              favoriteIcon
+              favoriteIcon={item.key === 'Suggesties voor jou!' ? false : true}
               onPressPerformance={this.pressPerformance}
             />
           ) : (

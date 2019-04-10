@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { getPerformanceById } from '../../store/actions/performances';
 import { Styles, Colors } from '../../assets/GeneralStyle';
 import Loader from '../../components/loader/Loader';
+import ImagePlaceHolder from '../../assets/icons/no-image.png';
 
 class PerformanceDetailScreen extends Component {
   componentDidMount() {
@@ -48,7 +49,13 @@ class PerformanceDetailScreen extends Component {
             <Text style={Styles.mainText}>{getPerformanceByIdAction.performance.artist.name}</Text>
             <Image
               style={styles.image}
-              source={{ uri: getPerformanceByIdAction.performance.artist.imageLink.urlText }}
+              source={
+                getPerformanceByIdAction.performance.artist.imageLink
+                  ? {
+                      uri: getPerformanceByIdAction.performance.artist.imageLink.urlText,
+                    }
+                  : ImagePlaceHolder
+              }
             />
             <View style={styles.hr} />
             <ScrollView style={styles.summary} showsVerticalScrollIndicator={false}>
@@ -62,23 +69,37 @@ class PerformanceDetailScreen extends Component {
                 Genres:
               </Text>
               <ScrollView horizontal>
-                {getPerformanceByIdAction.performance.artist.genres.map(genre => {
-                  return renderGenres(
-                    genre,
-                    genre ===
-                      getPerformanceByIdAction.performance.artist.genres[
-                        getPerformanceByIdAction.performance.artist.genres.length - 1
-                      ]
-                  );
-                })}
+                {getPerformanceByIdAction.performance.artist.genres.length > 0 ? (
+                  getPerformanceByIdAction.performance.artist.genres.map(genre => {
+                    return renderGenres(
+                      genre,
+                      genre ===
+                        getPerformanceByIdAction.performance.artist.genres[
+                          getPerformanceByIdAction.performance.artist.genres.length - 1
+                        ]
+                    );
+                  })
+                ) : (
+                  <Text>Onbekend</Text>
+                )}
               </ScrollView>
             </View>
             <View style={styles.artistMetaData}>
               <Text style={[styles.artistMetaDataText, styles.artistMetaDataTextFirst]}>Tijd:</Text>
               <Text style={styles.artistMetaDataText}>
-                {`${getDay(getPerformanceByIdAction.performance)} - ${
-                  getPerformanceByIdAction.performance.performanceTime.startTime
-                } - ${getPerformanceByIdAction.performance.performanceTime.endTime}`}
+                {`${
+                  getPerformanceByIdAction.performance.performanceTime
+                    ? getDay(getPerformanceByIdAction.performance)
+                    : '???'
+                } - ${
+                  getPerformanceByIdAction.performance.performanceTime
+                    ? getPerformanceByIdAction.performance.performanceTime.startTime
+                    : '???'
+                } - ${
+                  getPerformanceByIdAction.performance.performanceTime
+                    ? getPerformanceByIdAction.performance.performanceTime.endTime
+                    : '???'
+                }`}
               </Text>
             </View>
             <View style={styles.artistMetaData}>
