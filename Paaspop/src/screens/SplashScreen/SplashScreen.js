@@ -31,6 +31,13 @@ class SplashScreen extends Component {
       });
       await setFirebase();
       granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+        {
+          title: 'Paaspop locatie toegang',
+          message:
+            'Paaspop festival app heeft uw locatie nodig om te bepalen hoe druk het is op bepaalde punten.',
+          buttonPositive: 'OK',
+        },
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
           title: 'Paaspop locatie toegang',
