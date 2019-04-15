@@ -351,7 +351,7 @@ class PerformancesScreen extends Component {
                   overlappingArtists[0].artist.name
                 } heeft overlap met ${this.renderOverlappingArtists(
                   overlappingArtists
-                )}, wil je de app de keuze laten maken waar je heen moet?`
+                )}. Wil je de app de keuze laten maken waar je heen moet?`
               : ' '
           }
         >
