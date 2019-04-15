@@ -211,7 +211,6 @@ class PerformancesScreen extends Component {
       const artistsToNotBeFavorited = overlappingArtists.filter(
         performance => performance.id !== chosenPerformance.id
       );
-      alert(artistsToNotBeFavorited.length);
       this.setState({
         artistsToNotBeFavorited: artistsToNotBeFavorited,
         chosenArtist: chosenPerformance.artist,
