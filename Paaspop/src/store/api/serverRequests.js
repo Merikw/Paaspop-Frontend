@@ -5,7 +5,7 @@ const rootUrl = () => {
   if (__DEV__) {
     return Config.DEV_API_URL;
   } else {
-    return Config.DEV_API_URL;
+    return Config.PROD_API_URL;
   }
 };
 

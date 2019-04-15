@@ -33,8 +33,11 @@ class SubListItem extends Component {
                     <View
                       style={[
                         {
-                          width: `${(place.crowdPercentage.absolutePercentage / maxPercentage) *
-                            100}%`,
+                          width: `${
+                            maxPercentage > 0
+                              ? (place.crowdPercentage.absolutePercentage / maxPercentage) * 100
+                              : 0
+                          }%`,
                         },
                         styles.filler,
                       ]}

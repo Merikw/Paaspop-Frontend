@@ -22,7 +22,7 @@ class PerformancesScreen extends Component {
     visible: null,
     isOverlap: false,
     overlappingArtists: [],
-    artistToNotBeFavorited: {},
+    artistsToNotBeFavorited: [],
     chosenArtist: {},
     chosenArtistVisible: false,
   };
@@ -89,33 +89,30 @@ class PerformancesScreen extends Component {
     const favoritePerformances = userFavorites;
     let foundPerformance;
     const foundFavoritePerformance = favoritePerformances.find(p => p.id === performanceId);
-    const newOverlappingArtists = new Set([]);
+    const newOverlappingArtists = [];
+    let hasOverlap = false;
     if (!foundFavoritePerformance) {
       for (let stage of getPerformancesAction.performancesViewModel.performances) {
         foundPerformance = stage.value.find(p => p.id === performanceId);
         if (foundPerformance !== undefined) {
-          newOverlappingArtists.add(foundPerformance);
-          this.setState(prevState => {
-            return {
-              ...prevState,
-              overlappingArtists: newOverlappingArtists,
-            };
-          });
+          newOverlappingArtists.push(foundPerformance);
           break;
         }
       }
       for (let performance of favoritePerformances) {
         if (this.isOverlap(foundPerformance, performance)) {
+          hasOverlap = true;
           newOverlappingArtists.push(performance);
-          this.setState(prevstate => {
-            return {
-              ...prevstate,
-              isOverlap: true,
-              overlappingArtists: newOverlappingArtists,
-            };
-          });
         }
       }
+
+      this.setState(prevstate => {
+        return {
+          ...prevstate,
+          isOverlap: hasOverlap,
+          overlappingArtists: newOverlappingArtists,
+        };
+      });
       if (newOverlappingArtists.length <= 1) {
         this.updateUserWithFavorite(performanceId, favoritePerformances, foundFavoritePerformance);
       }
@@ -128,16 +125,18 @@ class PerformancesScreen extends Component {
     performanceId,
     favoritePerformances,
     foundPerformance,
-    performanceToNotBeFavorited = undefined
+    performancesToNotBeFavorited = undefined
   ) => {
     const { onUpdateUser, getPerformancesAction } = this.props;
     const { user } = this.state;
     let updateUser;
-    if (performanceToNotBeFavorited !== undefined) {
-      const index = favoritePerformances.findIndex(p => p.id === performanceToNotBeFavorited.id);
-      if (index >= 0) {
-        favoritePerformances.splice(index, 1);
-      }
+    if (performancesToNotBeFavorited !== undefined) {
+      performancesToNotBeFavorited.forEach(performance => {
+        const index = favoritePerformances.findIndex(p => p.id === performance.id);
+        if (index >= 0) {
+          favoritePerformances.splice(index, 1);
+        }
+      });
     }
     if (!foundPerformance) {
       getPerformancesAction.performancesViewModel.performances.forEach(s => {
@@ -199,18 +198,21 @@ class PerformancesScreen extends Component {
   handleModalOverlap = buttonClicked => () => {
     const { overlappingArtists } = this.state;
     if (buttonClicked === 'yes') {
-      const chosenPerformance =
-        overlappingArtists[0].interestPercentage.absolutePercentage <
-        overlappingArtists[1].interestPercentage.absolutePercentage
-          ? overlappingArtists[0]
-          : overlappingArtists[1];
+      let chosenPerformance = overlappingArtists[0];
+      overlappingArtists.forEach(performance => {
+        if (
+          chosenPerformance.interestPercentage.absolutePercentage >
+          performance.interestPercentage.absolutePercentage
+        ) {
+          chosenPerformance = performance;
+        }
+      });
 
-      const artistToNotBeFavorited =
-        chosenPerformance.id === overlappingArtists[0].id
-          ? overlappingArtists[1]
-          : overlappingArtists[0];
+      const artistsToNotBeFavorited = overlappingArtists.filter(
+        performance => performance.id !== chosenPerformance.id
+      );
       this.setState({
-        artistToNotBeFavorited: artistToNotBeFavorited,
+        artistsToNotBeFavorited: artistsToNotBeFavorited,
         chosenArtist: chosenPerformance.artist,
         chosenArtistVisible: true,
       });
@@ -220,7 +222,7 @@ class PerformancesScreen extends Component {
           chosenPerformance.id,
           userFavorites,
           undefined,
-          artistToNotBeFavorited
+          artistsToNotBeFavorited
         );
       }
     } else {
@@ -259,9 +261,38 @@ class PerformancesScreen extends Component {
     );
   };
 
+  renderOverlappingArtists = overlappingArtists => {
+    if (overlappingArtists.length === 2) {
+      return overlappingArtists[1].artist.name;
+    }
+
+    if (overlappingArtists.length === 3) {
+      return overlappingArtists[1].artist.name + ' en ' + overlappingArtists[2].artist.name;
+    }
+
+    if (overlappingArtists.length > 3) {
+      let overlappingArtistsText = '';
+      overlappingArtists.forEach(performance => {
+        overlappingArtistsText =
+          overlappingArtists[overlappingArtists.length - 1].id === performance.id
+            ? overlappingArtistsText + performance.artist.name
+            : overlappingArtists[overlappingArtists.length - 2].id === performance.id
+            ? overlappingArtistsText + performance.artist.name + ' en '
+            : overlappingArtistsText + performance.artist.name + ', ';
+      });
+      return overlappingArtistsText;
+    }
+  };
+
   render() {
     const { getPerformancesAction } = this.props;
-    const { visible, isOverlap, chosenArtist, chosenArtistVisible } = this.state;
+    const {
+      visible,
+      isOverlap,
+      chosenArtist,
+      chosenArtistVisible,
+      overlappingArtists,
+    } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.innerContainer}>
@@ -282,7 +313,9 @@ class PerformancesScreen extends Component {
         <CustomModal
           onClose={this.handleModalChosenArtist}
           visible={chosenArtistVisible}
-          title={`${chosenArtist.name} is voor jou gekozen!`}
+          title={`${
+            chosenArtist.name
+          } is voor jou gekozen! Jouw andere favoriet(en) zijn weggehaald.`}
         >
           <View style={styles.centerContainer}>
             <TouchableOpacity>
@@ -311,7 +344,15 @@ class PerformancesScreen extends Component {
         <CustomModal
           onClose={this.handleModalOverlap}
           visible={isOverlap}
-          title="Artiesten die je leuk vindt hebben overlap, wil je de app de keuze laten maken waar je heen moet?"
+          title={
+            overlappingArtists.length > 1
+              ? `${
+                  overlappingArtists[0].artist.name
+                } heeft overlap met ${this.renderOverlappingArtists(
+                  overlappingArtists
+                )}. Wil je de app de keuze laten maken waar je heen moet?`
+              : ' '
+          }
         >
           <View style={styles.centerContainer}>
             <View style={styles.modalContainer}>
