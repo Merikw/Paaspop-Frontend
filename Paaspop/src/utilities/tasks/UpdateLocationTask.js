@@ -21,7 +21,7 @@ const UpdateLocationTask = (updateUserFunc, navigator) => {
         }
       });
     }
-  }, 15000);
+  }, 5000);
 };
 
 export default UpdateLocationTask;

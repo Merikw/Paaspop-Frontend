@@ -64,8 +64,11 @@ class PerformancesScreen extends Component {
   };
 
   isOverlap = (firstPerformance, secondPerformance) => {
+    if (!firstPerformance.performanceTime || !secondPerformance.performanceTime) {
+      return false;
+    }
     return (
-      firstPerformance.performanceTime.Day === secondPerformance.performanceTime.Day &&
+      firstPerformance.performanceTime.day === secondPerformance.performanceTime.day &&
       (firstPerformance.performanceTime.startTime.localeCompare(
         secondPerformance.performanceTime.startTime
       ) == 0 ||
@@ -141,7 +144,7 @@ class PerformancesScreen extends Component {
     if (!foundPerformance) {
       getPerformancesAction.performancesViewModel.performances.forEach(s => {
         let performance = s.value.find(p => p.id === performanceId);
-        if (performance) {
+        if (performance && !favoritePerformances.find(p => p.id === performanceId)) {
           favoritePerformances.push(performance);
         }
       });

@@ -13,19 +13,18 @@ import getUser from '../../utilities/getUser/getUser';
 class PlacesScreen extends Component {
   state = {
     openendPlaces: [],
-    user: {},
   };
 
   async componentDidMount() {
     const { navigation, onGetBestPlaces } = this.props;
     const response = await getUser();
     if (response) {
-      this.setState({
-        user: response,
-      });
       onGetBestPlaces(response.currentLocation.latitude, response.currentLocation.longitude);
-      navigation.addListener('willFocus', () => {
-        onGetBestPlaces(response.currentLocation.latitude, response.currentLocation.longitude);
+      navigation.addListener('willFocus', async () => {
+        const response = await getUser();
+        if (response) {
+          onGetBestPlaces(response.currentLocation.latitude, response.currentLocation.longitude);
+        }
       });
     }
   }
