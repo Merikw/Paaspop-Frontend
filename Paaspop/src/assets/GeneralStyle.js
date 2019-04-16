@@ -15,6 +15,7 @@ const Styles = StyleSheet.create({
     color: Colors.black,
     fontFamily: 'LiberationSans-Regular',
     fontSize: 24,
+    alignSelf: 'center',
   },
 });
 
