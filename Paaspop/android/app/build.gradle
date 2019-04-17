@@ -106,8 +106,8 @@ android {
         applicationId "com.paaspop"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 35
-        versionName "0.8.1"
+        versionCode 36
+        versionName "0.8.2"
         manifestPlaceholders = [mapsApiKey:String.valueOf(System.getenv("MAPS_API_KEY"))]
         ndk {
             abiFilters "armeabi-v7a", "x86"
