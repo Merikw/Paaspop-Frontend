@@ -81,7 +81,7 @@ export const updateUser = user => {
       })
       .then(result => JSON.stringify(result))
       .then(user => dispatch(updateUserSuccess(user)))
-      .catch();
+      .catch(() => dispatch(updateUserFailure(true)));
   };
 };
 

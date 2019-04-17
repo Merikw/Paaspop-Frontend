@@ -77,7 +77,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         updateUserAction: {
-          updateUser: null,
+          updateUser: initialState.updateUserAction,
           loading: false,
           error: action.payload,
           succes: false,
