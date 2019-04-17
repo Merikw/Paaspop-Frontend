@@ -106,8 +106,8 @@ android {
         applicationId "com.paaspop"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 36
-        versionName "0.8.2"
+        versionCode 37
+        versionName "0.9.0"
         manifestPlaceholders = [mapsApiKey:String.valueOf(System.getenv("MAPS_API_KEY"))]
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -124,10 +124,17 @@ android {
     }
     signingConfigs {
         release {
+                         if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
         }
     }
     buildTypes {
         release {
+                  signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release

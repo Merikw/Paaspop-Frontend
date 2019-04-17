@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Linking, AppState } from 'react-native';
 import Share from 'react-native-share';
 import MapView, { PROVIDER_GOOGLE, Overlay, Marker } from 'react-native-maps';
 import Floorplan from '../../assets/images/floorplan.jpg';
@@ -10,6 +10,10 @@ import { Colors } from '../../assets/GeneralStyle';
 import getUser from '../../utilities/getUser/getUser';
 
 class MapScreen extends Component {
+  state = {
+    appState: AppState.currentState,
+  };
+
   componentDidMount() {
     const { navigation, onClearMeetingPoint } = this.props;
 
@@ -17,6 +21,12 @@ class MapScreen extends Component {
       { latitude: 51.642318, longitude: 5.4172 },
       { latitude: 51.643618, longitude: 5.4177 }
     );
+
+    Linking.getInitialURL().then(url => {
+      this.navigate(url);
+    });
+    Linking.addEventListener('url', this.handleOpenURL);
+    AppState.addEventListener('change', this.handleAppStateChange);
 
     navigation.addListener('willFocus', () => {
       this.setState({
@@ -34,6 +44,35 @@ class MapScreen extends Component {
       await this.shareMeetingPoint(generateMeetingPointAction.meetingPoint);
     }
   }
+
+  handleAppStateChange = nextAppState => {
+    const { appState } = this.state;
+    if (appState.match(/inactive|background/) && nextAppState === 'active') {
+      Linking.getInitialURL().then(url => {
+        this.navigate(url);
+      });
+    }
+    this.setState({ appState: nextAppState });
+  };
+
+  handleOpenURL = event => {
+    this.navigate(event.url);
+  };
+
+  navigate = url => {
+    if (url !== null) {
+      const { navigation } = this.props;
+      const splittedroute = url.split('/');
+      if (splittedroute[3] === 'meetingpoint') {
+        navigation.navigate('PlaceDetail', {
+          location: {
+            latitude: parseFloat(splittedroute[4]),
+            longitude: parseFloat(splittedroute[5]),
+          },
+        });
+      }
+    }
+  };
 
   onPressGenerateMeetingPoint = async () => {
     const { onGenerateMeetingPoint } = this.props;
