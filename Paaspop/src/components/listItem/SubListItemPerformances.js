@@ -43,7 +43,11 @@ class SubListItem extends Component {
             }
           }
           return (
-            <View key={performance.id} style={styles.listItem}>
+            <TouchableOpacity
+              onPress={this.onPressPerformance(performance)}
+              key={performance.id}
+              style={styles.listItem}
+            >
               <TouchableOpacity
                 style={styles.listItemClickable}
                 onPress={this.onPressPerformance(performance)}
@@ -84,7 +88,7 @@ class SubListItem extends Component {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           );
         })}
       </View>
