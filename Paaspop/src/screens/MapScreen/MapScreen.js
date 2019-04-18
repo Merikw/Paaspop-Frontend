@@ -12,6 +12,7 @@ import getUser from '../../utilities/getUser/getUser';
 class MapScreen extends Component {
   state = {
     appState: AppState.currentState,
+    pressedShare: false,
   };
 
   componentDidMount() {
@@ -76,6 +77,9 @@ class MapScreen extends Component {
 
   onPressGenerateMeetingPoint = async () => {
     const { onGenerateMeetingPoint } = this.props;
+    this.setState({
+      pressedShare: true,
+    });
     const user = await getUser();
     if (user.currentLocation) {
       onGenerateMeetingPoint(user.currentLocation.latitude, user.currentLocation.longitude);
@@ -83,6 +87,7 @@ class MapScreen extends Component {
   };
 
   shareMeetingPoint = async meetingPoint => {
+    const { pressedShare } = this.state;
     const shareOptions = {
       message:
         'Help, ik ben je kwijt! De paaspop app heeft dit meeting punt voorgesteld, kom je hierheen?',
@@ -91,7 +96,12 @@ class MapScreen extends Component {
       }`,
     };
 
-    Share.open(shareOptions);
+    if (pressedShare) {
+      await Share.open(shareOptions);
+      this.setState({
+        pressedShare: false,
+      });
+    }
   };
 
   render() {
