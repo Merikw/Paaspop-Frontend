@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity, Text, Linking, AppState } from 'react-native';
 import Share from 'react-native-share';
-import MapView, { PROVIDER_GOOGLE, Overlay, Marker } from 'react-native-maps';
+import MapView, { Overlay, Marker } from 'react-native-maps';
 import Floorplan from '../../assets/images/floorplan.jpg';
 import { generateMeetingPoint, clearMeetingPoint } from '../../store/actions/places';
 import { Colors } from '../../assets/GeneralStyle';
@@ -110,7 +110,6 @@ class MapScreen extends Component {
       <View style={styles.floorPlanContainer}>
         <MapView
           ref={ref => (this.mapRef = ref)}
-          provider={PROVIDER_GOOGLE}
           style={styles.map}
           region={{
             latitude: generateMeetingPointAction.succes

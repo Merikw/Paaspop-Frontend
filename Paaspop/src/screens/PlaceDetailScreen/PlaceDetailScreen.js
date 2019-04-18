@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Overlay, Marker } from 'react-native-maps';
+import MapView, { Overlay, Marker } from 'react-native-maps';
 import PropTypes from 'prop-types';
 
 import Floorplan from '../../assets/images/floorplan.jpg';
@@ -30,7 +30,6 @@ class PlaceDetailScreen extends Component {
         ) : (
           <MapView
             ref={ref => (this.mapRef = ref)}
-            provider={PROVIDER_GOOGLE}
             style={styles.map}
             region={{
               latitude: location.latitude,
