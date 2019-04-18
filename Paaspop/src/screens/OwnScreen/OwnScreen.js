@@ -200,7 +200,7 @@ OwnScreen.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    height: '95%',
+    height: '90%',
     marginTop: '20%',
     marginLeft: '3%',
     marginRight: '5%',
