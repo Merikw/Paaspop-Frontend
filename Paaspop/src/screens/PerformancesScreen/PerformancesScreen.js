@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 import Loader from '../../components/loader/Loader';
 import CustomModal from '../../components/modal/Modal';
-import { getPerformances, getFavoritePerformances } from '../../store/actions/performances';
+import {
+  getPerformances,
+  getFavoritePerformances,
+  searchPerformances,
+} from '../../store/actions/performances';
 import { updateUser } from '../../store/actions/users';
 import { Styles, Colors } from '../../assets/GeneralStyle';
 import ListItem from '../../components/listItem/ListItem';
@@ -25,6 +30,7 @@ class PerformancesScreen extends Component {
     artistsToNotBeFavorited: [],
     chosenArtist: {},
     chosenArtistVisible: false,
+    artistSearch: '',
   };
 
   async componentDidMount() {
@@ -39,6 +45,11 @@ class PerformancesScreen extends Component {
       navigation.addListener('willFocus', () => {
         onGetFavoritePerformances(response.id);
         onGetPerformances(response.id);
+      });
+      navigation.addListener('willBlur', () => {
+        this.setState({
+          artistSearch: '',
+        });
       });
     }
   }
@@ -287,6 +298,16 @@ class PerformancesScreen extends Component {
     }
   };
 
+  updateArtistSearch = artistSearch => {
+    const { getPerformancesAction, onSearchPerformances } = this.props;
+    this.setState({ artistSearch });
+    onSearchPerformances(
+      artistSearch,
+      getPerformancesAction.performancesViewModel,
+      getPerformancesAction.allPerformances
+    );
+  };
+
   render() {
     const { getPerformancesAction } = this.props;
     const {
@@ -295,6 +316,7 @@ class PerformancesScreen extends Component {
       chosenArtist,
       chosenArtistVisible,
       overlappingArtists,
+      artistSearch,
     } = this.state;
     return (
       <View style={styles.container}>
@@ -304,6 +326,12 @@ class PerformancesScreen extends Component {
           />
           <Text style={Styles.mainText}>Stages</Text>
         </View>
+        <SearchBar
+          placeholder="Zoek artiesten!"
+          onChangeText={this.updateArtistSearch}
+          value={artistSearch}
+          platform="android"
+        />
         <ScrollView>
           {getPerformancesAction.performancesViewModel ? (
             getPerformancesAction.performancesViewModel.performances.map(item => {
@@ -326,7 +354,7 @@ class PerformancesScreen extends Component {
                 onPress={this.handleModalChosenArtist}
                 style={[styles.buttonText, styles.primaryText]}
               >
-                Okay
+                Oké
               </Text>
             </TouchableOpacity>
           </View>
@@ -339,7 +367,7 @@ class PerformancesScreen extends Component {
           <View style={styles.centerContainer}>
             <TouchableOpacity>
               <Text onPress={this.handleModal} style={[styles.buttonText, styles.primaryText]}>
-                Okay
+                Oké
               </Text>
             </TouchableOpacity>
           </View>
@@ -402,6 +430,7 @@ PerformancesScreen.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
+  onSearchPerformances: PropTypes.func.isRequired,
 };
 
 PerformancesScreen.defaultProps = {
@@ -449,6 +478,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onGetFavoritePerformances: userId => dispatch(getFavoritePerformances(userId)),
     onGetPerformances: userId => dispatch(getPerformances(userId)),
+    onSearchPerformances: (searchCommand, performancesViewModel, allPerformances) =>
+      dispatch(searchPerformances(searchCommand, performancesViewModel, allPerformances)),
     onUpdateUser: user => dispatch(updateUser(user)),
   };
 };

@@ -8,6 +8,7 @@ import {
   GET_FAVORITE_PERFORMANCES_IS_LOADING,
   GET_FAVORITE_PERFORMANCES_SUCCESS,
   GET_FAVORITE_PERFORMANCES_FAIL,
+  SEARCH_PERFORMANCES_SUCCESS,
   CLEAR_ALL,
 } from '../actions/actionTypes';
 
@@ -17,6 +18,7 @@ const initialState = {
       performances: [],
       suggestionPerformances: [],
     },
+    allPerformances: [],
     error: false,
     loading: false,
     succes: false,
@@ -56,6 +58,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         getPerformancesAction: {
           performancesViewModel: action.payload,
+          allPerformances: action.payload,
           loading: false,
           error: false,
           succes: true,
@@ -129,6 +132,17 @@ const reducer = (state = initialState, action) => {
           loading: false,
           error: action.payload,
           succes: false,
+        },
+      };
+    case SEARCH_PERFORMANCES_SUCCESS:
+      return {
+        ...state,
+        getPerformancesAction: {
+          performancesViewModel: action.payload.newPerformancesViewModel,
+          allPerformances: action.payload.allPerformances,
+          loading: false,
+          error: false,
+          succes: true,
         },
       };
     default:
