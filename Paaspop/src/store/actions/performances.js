@@ -4,6 +4,7 @@ import {
   GET_PERFORMANCES_IS_LOADING,
   GET_PERFORMANCES_SUCCESS,
   GET_PERFORMANCES_FAIL,
+  SEARCH_PERFORMANCES_SUCCESS,
   GET_FAVORITE_PERFORMANCES_IS_LOADING,
   GET_FAVORITE_PERFORMANCES_SUCCESS,
   GET_FAVORITE_PERFORMANCES_FAIL,
@@ -45,6 +46,55 @@ export const getPerformancesFailure = error => {
   return {
     type: GET_PERFORMANCES_FAIL,
     payload: error,
+  };
+};
+
+export const searchPerformances = (searchCommand, performancesViewModel, allPerformances) => {
+  return dispatch => {
+    var foundPerformances = [];
+    if (searchCommand || searchCommand.trim() === '') {
+      for (const [key, value] of Object.entries(allPerformances.performances)) {
+        var stage = value.value;
+        var foundPerformancesInstage = stage.filter(performance =>
+          performance.artist.name
+            .trim()
+            .toLowerCase()
+            .includes(searchCommand.trim().toLowerCase())
+        );
+        if (foundPerformancesInstage.length >= 1) {
+          foundPerformances.push({
+            key: value.key,
+            value: foundPerformancesInstage,
+          });
+        }
+      }
+      dispatch(
+        searchPerformancesSuccess(
+          {
+            performances: foundPerformances,
+            suggestionPerformances: performancesViewModel.suggestionPerformances,
+          },
+          allPerformances
+        )
+      );
+    } else {
+      dispatch(
+        searchPerformancesSuccess(
+          {
+            performances: allPerformances,
+            suggestionPerformances: performancesViewModel.suggestionPerformances,
+          },
+          allPerformances
+        )
+      );
+    }
+  };
+};
+
+export const searchPerformancesSuccess = (newPerformancesViewModel, allPerformances) => {
+  return {
+    type: SEARCH_PERFORMANCES_SUCCESS,
+    payload: { newPerformancesViewModel, allPerformances },
   };
 };
 
