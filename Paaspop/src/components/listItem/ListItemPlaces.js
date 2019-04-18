@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   textLeft: {
-    width: '44%',
+    width: '80%',
   },
   openendContainer: {
     width: '45%',
