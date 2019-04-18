@@ -14,7 +14,7 @@ class ListItemPlaces extends Component {
   render() {
     const { name, opened } = this.props;
     return (
-      <View style={styles.listItem}>
+      <TouchableOpacity style={styles.listItem} onPress={this.handleOnOpen(name)}>
         <TouchableOpacity style={styles.textLeft} onPress={this.handleOnOpen(name)}>
           <Text style={styles.listItemText}>{name}</Text>
         </TouchableOpacity>
@@ -33,7 +33,7 @@ class ListItemPlaces extends Component {
         <TouchableOpacity onPress={this.handleOnOpen(name)}>
           <Icon name={opened ? 'ios-arrow-down' : 'ios-arrow-forward'} size={25} color="black" />
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
