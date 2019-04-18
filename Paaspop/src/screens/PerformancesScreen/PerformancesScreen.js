@@ -411,7 +411,7 @@ PerformancesScreen.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '95%',
     marginTop: '20%',
     marginLeft: '3%',
     marginRight: '5%',

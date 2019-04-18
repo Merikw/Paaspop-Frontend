@@ -17,7 +17,11 @@ class SubListItem extends Component {
         {items.map(bestPlace => {
           const place = bestPlace.place;
           return (
-            <View key={place.id} style={styles.listItem}>
+            <TouchableOpacity
+              onPress={this.onPressPlace(place)}
+              key={place.id}
+              style={styles.listItem}
+            >
               <TouchableOpacity
                 style={styles.listItemTextContainer}
                 onPress={this.onPressPlace(place)}
@@ -45,7 +49,7 @@ class SubListItem extends Component {
                   </View>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           );
         })}
       </View>
