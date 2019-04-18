@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { getPerformanceById } from '../../store/actions/performances';
 import { Styles, Colors } from '../../assets/GeneralStyle';
@@ -151,7 +151,7 @@ PerformanceDetailScreen.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '95%',
     marginTop: '20%',
     marginLeft: '3%',
     marginRight: '5%',
@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     marginBottom: '5%',
     width: '70%',
-    height: '30%',
+    minHeight: '25%',
+    maxHeight: '30%',
   },
   hr: {
     borderBottomColor: Colors.gray,
@@ -172,9 +173,10 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   summary: {
+    flexGrow: 0,
     marginTop: '3%',
     marginBottom: '3%',
-    maxHeight: '50%',
+    maxHeight: '25%',
   },
   summaryText: {
     fontFamily: 'LiberationSans-Regular',
@@ -184,8 +186,8 @@ const styles = StyleSheet.create({
   artistMetaData: {
     flexDirection: 'row',
     alignSelf: 'flex-start',
-    marginTop: '3%',
-    maxHeight: '5%',
+    marginTop: '2%',
+    height: '5%',
   },
   artistMetaDataText: {
     fontFamily: 'LiberationSans-Regular',
@@ -200,6 +202,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '90%',
     backgroundColor: Colors.gray,
+    maxHeight: '80%',
     alignSelf: 'center',
   },
   crowdBarContainer: {
@@ -207,7 +210,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingRight: '2%',
     marginTop: '5%',
-    height: '2%',
+    height: '2.5%',
     alignItems: 'center',
   },
   InterestText: {

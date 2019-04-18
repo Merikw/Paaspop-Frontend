@@ -100,7 +100,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         generateMeetingPointAction: {
-          meetingPoint: action.payload,
+          meetingPoint: null,
           loading: false,
           error: false,
           succes: false,

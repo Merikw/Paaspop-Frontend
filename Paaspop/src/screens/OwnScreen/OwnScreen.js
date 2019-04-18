@@ -137,7 +137,7 @@ class OwnScreen extends Component {
           />
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>Water drink melding</Text>
+          <Text style={styles.text}>Waterdrinkmelding</Text>
           <Switch
             value={user.wantsWaterDrinkNotification}
             backgroundActive={Colors.primary}
@@ -200,7 +200,7 @@ OwnScreen.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '95%',
     marginTop: '20%',
     marginLeft: '3%',
     marginRight: '5%',

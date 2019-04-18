@@ -17,10 +17,15 @@ const Header = {
       <Image source={Logo} style={ImageStyle} />
     </View>
   ),
-  headerLeft: null,
   headerStyle: {
     backgroundColor: Colors.primary,
   },
+  headerTintColor: Colors.white,
+  headerBackTitle: null,
+  headerTitleContainerStyle: {
+    left: 0, // THIS RIGHT HERE
+  },
+  headerLayoutPreset: 'center',
 };
 
 export default Header;
