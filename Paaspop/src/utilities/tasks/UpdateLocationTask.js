@@ -7,19 +7,23 @@ const UpdateLocationTask = (updateUserFunc, navigator) => {
     const response = await getUser();
     if (response) {
       let newLocationUser = response;
-      navigator.geolocation.getCurrentPosition(position => {
-        if (position) {
-          newLocationUser = {
-            ...newLocationUser,
-            currentLocation: {
-              latitude: JSON.stringify(position.coords.latitude),
-              longitude: JSON.stringify(position.coords.longitude),
-            },
-            userUpdateType: 0,
-          };
-          updateUserFunc(newLocationUser);
-        }
-      });
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          if (position) {
+            newLocationUser = {
+              ...newLocationUser,
+              currentLocation: {
+                latitude: JSON.stringify(position.coords.latitude),
+                longitude: JSON.stringify(position.coords.longitude),
+              },
+              userUpdateType: 0,
+            };
+            updateUserFunc(newLocationUser);
+          }
+        },
+        err => {},
+        { enableHighAccuracy: true, maximumAge: 0 }
+      );
     }
   }, 5000);
 };
