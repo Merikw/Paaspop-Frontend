@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import MapView, { Overlay, Marker } from 'react-native-maps';
 import PropTypes from 'prop-types';
 
-import Floorplan from '../../assets/images/floorplan.jpg';
+import Floorplan from '../../assets/images/floorplan.png';
 import Loader from '../../components/loader/Loader';
 import { Colors } from '../../assets/GeneralStyle';
 

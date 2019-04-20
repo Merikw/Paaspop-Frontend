@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity, Text, Linking, AppState } from 'react-native';
 import Share from 'react-native-share';
 import MapView, { Overlay, Marker } from 'react-native-maps';
-import Floorplan from '../../assets/images/floorplan.jpg';
+import Floorplan from '../../assets/images/floorplan.png';
 import { generateMeetingPoint, clearMeetingPoint } from '../../store/actions/places';
 import { Colors } from '../../assets/GeneralStyle';
+import customMap from '../../assets/customMap.json';
 import getUser from '../../utilities/getUser/getUser';
 
 class MapScreen extends Component {
@@ -17,11 +18,6 @@ class MapScreen extends Component {
 
   componentDidMount() {
     const { navigation, onClearMeetingPoint } = this.props;
-
-    this.mapRef.setMapBoundaries(
-      { latitude: 51.642318, longitude: 5.4172 },
-      { latitude: 51.643618, longitude: 5.4177 }
-    );
 
     Linking.getInitialURL().then(url => {
       this.navigate(url);
@@ -110,6 +106,7 @@ class MapScreen extends Component {
       <View style={styles.floorPlanContainer}>
         <MapView
           ref={ref => (this.mapRef = ref)}
+          customMapStyle={customMap}
           style={styles.map}
           region={{
             latitude: generateMeetingPointAction.succes
@@ -121,10 +118,8 @@ class MapScreen extends Component {
             latitudeDelta: 0.003,
             longitudeDelta: 0.003,
           }}
-          minZoomLevel={17.3}
-          showsMyLocationButton={false}
+          showsMyLocationButton
           showsUserLocation
-          mapType="none"
         >
           {generateMeetingPointAction.succes ? (
             <Marker
@@ -138,7 +133,7 @@ class MapScreen extends Component {
           ) : (
             <View />
           )}
-          <Overlay image={Floorplan} bounds={[[51.644861, 5.415408], [51.64074, 5.419571]]} />
+          <Overlay image={Floorplan} bounds={[[51.646195, 5.415526], [51.640656, 5.419507]]} />
         </MapView>
         <TouchableOpacity
           style={styles.meetingPointButton}
