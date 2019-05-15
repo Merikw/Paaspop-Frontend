@@ -68,9 +68,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         getPerformancesAction: {
-          performancesViewModel: null,
+          performancesViewModel: action.payload.performances,
+          allPerformances: action.payload.performances,
           loading: false,
-          error: action.payload,
+          error: action.payload.error,
           succes: false,
         },
       };
@@ -128,9 +129,9 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         getFavoritePerformancesAction: {
-          performances: null,
+          performances: action.payload.favoritePerformances,
           loading: false,
-          error: action.payload,
+          error: action.payload.error,
           succes: false,
         },
       };

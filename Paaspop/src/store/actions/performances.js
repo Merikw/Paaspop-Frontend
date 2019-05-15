@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { LocalStorageKeys } from '../../utilities/constants/constants';
 import { Get } from '../api/serverRequests';
 
 import {
@@ -17,14 +19,18 @@ export const getPerformances = userId => {
   return dispatch => {
     dispatch(getPerformancesIsLoading(true));
     Get(`performances/${userId}`)
-      .then(result => {
+      .then(async result => {
         if (result.status !== 200) {
           throw Error(result.statusText);
         }
+        await AsyncStorage.setItem(LocalStorageKeys.Schedule.Key, JSON.stringify(result.data));
         return result.data;
       })
       .then(performancesViewModel => dispatch(getPerformancesSuccess(performancesViewModel)))
-      .catch(() => dispatch(getPerformancesFailure(true)));
+      .catch(async () => {
+        const performances = await AsyncStorage.getItem(LocalStorageKeys.Schedule.Key);
+        dispatch(getPerformancesFailure(performances));
+      });
   };
 };
 
@@ -42,10 +48,16 @@ export const getPerformancesSuccess = performancesViewModel => {
   };
 };
 
-export const getPerformancesFailure = error => {
+export const getPerformancesFailure = performances => {
+  if (performances != null) {
+    return {
+      type: GET_PERFORMANCES_FAIL,
+      payload: { performances: JSON.parse(performances), error: false },
+    };
+  }
   return {
     type: GET_PERFORMANCES_FAIL,
-    payload: error,
+    payload: { performances: undefined, error: true },
   };
 };
 
@@ -138,14 +150,18 @@ export const getFavoritePerformances = userId => {
   return dispatch => {
     dispatch(getFavoritePerformancesIsLoading(true));
     Get(`users/favoritePerformances/${userId}`)
-      .then(result => {
+      .then(async result => {
         if (result.status !== 200) {
           throw Error(result.statusText);
         }
+        await AsyncStorage.setItem(LocalStorageKeys.Favorites.Key, JSON.stringify(result.data));
         return result.data;
       })
       .then(performances => dispatch(getFavoritePerformancesSucces(performances)))
-      .catch(() => dispatch(getFavoritePerformancesFailure(true)));
+      .catch(async () => {
+        const favoritePerformances = await AsyncStorage.getItem(LocalStorageKeys.Favorites.Key);
+        dispatch(getFavoritePerformancesFailure(favoritePerformances));
+      });
   };
 };
 
@@ -163,9 +179,15 @@ export const getFavoritePerformancesSucces = performances => {
   };
 };
 
-export const getFavoritePerformancesFailure = error => {
+export const getFavoritePerformancesFailure = favoritePerformances => {
+  if (favoritePerformances != null) {
+    return {
+      type: GET_FAVORITE_PERFORMANCES_FAIL,
+      payload: { favoritePerformances: JSON.parse(favoritePerformances), error: false },
+    };
+  }
   return {
     type: GET_FAVORITE_PERFORMANCES_FAIL,
-    payload: error,
+    payload: { favoritePerformances: favoritePerformances, error: true },
   };
 };

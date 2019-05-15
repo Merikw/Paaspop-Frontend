@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { LocalStorageKeys } from '../../utilities/constants/constants';
 
 import { Post, Update, Delete } from '../api/serverRequests';

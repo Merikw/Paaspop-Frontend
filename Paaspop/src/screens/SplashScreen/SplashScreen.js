@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  View,
-  Image,
-  StyleSheet,
-  AsyncStorage,
-  PermissionsAndroid,
-  Platform,
-  YellowBox,
-} from 'react-native';
+import { View, Image, StyleSheet, PermissionsAndroid, Platform, YellowBox } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import PropTypes from 'prop-types';
 
 import { LocalStorageKeys } from '../../utilities/constants/constants';

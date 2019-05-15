@@ -1,4 +1,5 @@
-import { AsyncStorage, Alert } from 'react-native';
+import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'react-native-firebase';
 import { LocalStorageKeys } from '../constants/constants';
 

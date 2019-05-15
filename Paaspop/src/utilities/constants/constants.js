@@ -20,4 +20,10 @@ export const LocalStorageKeys = {
   FCM: {
     Token: 'Token',
   },
+  Schedule: {
+    Key: 'Schedule',
+  },
+  Favorites: {
+    Key: 'Favorites',
+  },
 };
