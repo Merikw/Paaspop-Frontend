@@ -16,21 +16,20 @@ import {
 } from './actionTypes';
 
 export const getPerformances = userId => {
-  return dispatch => {
+  return async dispatch => {
     dispatch(getPerformancesIsLoading(true));
-    Get(`performances/${userId}`)
-      .then(async result => {
-        if (result.status !== 200) {
-          throw Error(result.statusText);
-        }
-        await AsyncStorage.setItem(LocalStorageKeys.Schedule.Key, JSON.stringify(result.data));
-        return result.data;
-      })
-      .then(performancesViewModel => dispatch(getPerformancesSuccess(performancesViewModel)))
-      .catch(async () => {
-        const performances = await AsyncStorage.getItem(LocalStorageKeys.Schedule.Key);
-        dispatch(getPerformancesFailure(performances));
-      });
+    try {
+      const result = await Get(`performances/${userId}`);
+      if (result.status !== 200) {
+        throw Error(result.statusText);
+      }
+      await AsyncStorage.setItem(LocalStorageKeys.Schedule.Key, JSON.stringify(result.data));
+      const performancesViewModel = result.data;
+      return dispatch(getPerformancesSuccess(performancesViewModel));
+    } catch (e) {
+      const performances = await AsyncStorage.getItem(LocalStorageKeys.Schedule.Key);
+      return dispatch(getPerformancesFailure(performances));
+    }
   };
 };
 
@@ -80,7 +79,7 @@ export const searchPerformances = (searchCommand, performancesViewModel, allPerf
           });
         }
       }
-      dispatch(
+      return dispatch(
         searchPerformancesSuccess(
           {
             performances: foundPerformances,
@@ -90,7 +89,7 @@ export const searchPerformances = (searchCommand, performancesViewModel, allPerf
         )
       );
     } else {
-      dispatch(
+      return dispatch(
         searchPerformancesSuccess(
           {
             performances: allPerformances,
@@ -111,7 +110,7 @@ export const searchPerformancesSuccess = (newPerformancesViewModel, allPerforman
 };
 
 export const getPerformanceById = performanceId => {
-  return dispatch => {
+  return async dispatch => {
     dispatch(getPerformanceByIdIsLoading(true));
     Get(`performances/byid/${performanceId}`)
       .then(result => {
@@ -147,7 +146,7 @@ export const getPerformanceByIdFailure = error => {
 };
 
 export const getFavoritePerformances = userId => {
-  return dispatch => {
+  return async dispatch => {
     dispatch(getFavoritePerformancesIsLoading(true));
     Get(`users/favoritePerformances/${userId}`)
       .then(async result => {

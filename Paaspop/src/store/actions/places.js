@@ -13,7 +13,7 @@ import {
 export const getBestPlaces = (lat, lon) => {
   const latitude = lat ? lat : 51.619991;
   const longitude = lon ? lon : 5.43434;
-  return dispatch => {
+  return async dispatch => {
     dispatch(getBestPlacesIsLoading(true));
     Get(`places/best/${latitude}/${longitude}`)
       .then(result => {
@@ -51,7 +51,7 @@ export const getBestPlacesFailure = error => {
 export const generateMeetingPoint = (lat, lon) => {
   const latitude = lat ? lat : 51.619991;
   const longitude = lon ? lon : 5.43434;
-  return dispatch => {
+  return async dispatch => {
     dispatch(generateMeetingPointIsLoading(true));
     Get(`places/generateMeetingPoint/${latitude}/${longitude}`)
       .then(result => {

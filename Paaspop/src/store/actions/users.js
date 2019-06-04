@@ -17,7 +17,7 @@ import {
 } from './actionTypes';
 
 export const addUser = userWithoutToken => {
-  return dispatch => {
+  return async dispatch => {
     dispatch(addUserIsLoading(true));
     let user;
     AsyncStorage.getItem(LocalStorageKeys.FCM.Token).then(token => {
@@ -66,7 +66,7 @@ export const addUserFailure = error => {
 };
 
 export const updateUser = user => {
-  return dispatch => {
+  return async dispatch => {
     dispatch(updateUserIsLoading(true));
     Update('users', user)
       .then(async result => {
@@ -107,7 +107,7 @@ export const updateUserFailure = error => {
 };
 
 export const removeUser = userId => {
-  return dispatch => {
+  return async dispatch => {
     dispatch(removeUserIsLoading(true));
     Delete(`users/${userId}`)
       .then(async result => {
